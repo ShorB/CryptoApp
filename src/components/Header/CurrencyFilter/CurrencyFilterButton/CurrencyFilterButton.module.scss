@@ -1,0 +1,90 @@
+@import "../../../../variables/variables.scss";
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../../../fonts/Roboto-Regular.ttf');
+}
+
+.filter__button {
+    &_close {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: $filter_button_width;
+        min-height: $filter_button_min_height;
+        background: $backgroung_color_default;
+        border: 0.5px solid $color_DFE2E4;
+        border-radius: 12px;
+    }
+    &_open {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: $filter_button_width;
+        min-height: $filter_button_min_height;
+        background: $backgroung_color_default;
+        border: 0.5px solid $color_DFE2E4;
+        border-radius: 12px 12px 0px 0px;
+    }
+}
+
+.button__opener_open {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid $color_6C757D;
+}
+
+.button__opener_close {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid $color_6C757D;
+}
+
+.button__description {
+    vertical-align: middle;
+    @include font('Roboto', normal, 450, 12px, 15px, $color_6C757D);
+}
+
+.filter__list__container {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    width: $coin_item_width;
+    top: 141px;
+    padding-left: 16px;
+    padding-right: 16px;
+    &_open {
+        display: flex;
+        flex-direction: column;
+        width: $filter_button_width;
+        max-height: 134.4px;
+        min-height: 0;
+        background: $backgroung_color_default;
+        border: 0.5px solid $color_DFE2E4;
+        border-radius: 12px;
+    }
+    &_close {
+        display: flex;
+        flex-direction: column;
+        width: $filter_button_width;
+        max-height: $filter_button_min_height;
+        background: $backgroung_color_default;
+        border: 0.5px solid $color_DFE2E4;
+        border-radius: 12px;
+    }
+}
+
+.item__list__container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 0px 0px 12px 12px;
+    z-index: 2;
+}
+
+.item__list__container::-webkit-scrollbar {
+    width: 0;
+}
+
+.coins__inscription {
+    @include font('Circular Std', normal, 500, 18px, 23px, $color_black);
+}

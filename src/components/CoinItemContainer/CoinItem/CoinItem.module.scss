@@ -1,0 +1,81 @@
+@import "../../../variables/variables.scss";
+
+@font-face {
+    font-family: 'Circular Std';
+    src: url('../../../fonts/CircularStd-Medium.woff2');
+}
+
+a {
+    text-decoration:none;
+}
+
+.coin__container {
+    display: flex;
+    align-items: center;
+    background-color:$color_white;;
+    width: $coin_item_width;
+    height: $coin_item_height;
+    border-radius: $coin_item_border_radius;
+    margin: auto;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
+}
+
+.coin__image__container {
+    padding: 16px 12px 16px 16px;
+}
+
+.coin__image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.coin__symbol {
+    @include font('Roboto', normal, 450, 12px, 15px, $color_6C757D);
+}
+
+.coin__name {
+    @include font('Roboto', normal, 450, 16px, 20px, $color_212529);
+}
+
+.coin__info__container {
+    width: $coin_info_container
+}
+
+.coin__graph {
+    width: 50px;
+    height: 25px;
+    color: black;
+}
+
+.coin__price {
+    display: flex;
+    justify-content: flex-end;
+    text-align: center;
+    @include font('Roboto', normal, 450, 16px, 20px, $color_343A40);
+}
+
+.coin__price__container {
+    display: flex;
+    flex-direction: column;
+    padding-left: 24px;
+    padding-right: 16px;
+    width: $coin_price_container_width;
+}
+
+.coin__price__change {
+    &_gainer {
+        display: flex;
+        justify-content: flex-end;
+        @include font('Roboto', normal, 500, 10px, 13px, $color_green);
+    }
+    &_loser {
+        display: flex;
+        justify-content: flex-end;
+        @include font('Roboto', normal, 500, 10px, 13px, $color_red);
+    }
+}

@@ -1,0 +1,81 @@
+@import "../../../variables/variables.scss";
+
+.menu__container {
+    display: flex;
+    position: absolute;
+    bottom: 16px;
+    height: 15px;
+    width: $app_width;
+}
+
+.menu__container__all {
+    &_close {
+        text-align: center;
+        vertical-align: middle;
+        height: 15px;
+        width: 70px;
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_6C757D);
+    }
+    &_open {
+        text-align: center;
+        vertical-align: middle;
+        height: 15px;
+        width: 70px;
+        border-bottom: 3px solid $color_blue;
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_blue);
+    }
+}
+
+.menu__container__gainer {
+    &_close {
+        text-align: center;
+        vertical-align: middle;
+        height: 15px;
+        width: 70px;
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_6C757D);
+    }
+    &_open {
+        text-align: center;
+        vertical-align: middle;
+        height: 15px;
+        width: 70px;
+        border-bottom: 3px solid $color_blue;
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_blue);
+    }
+}
+
+.menu__container__loser {
+    &_close {
+        text-align: center;
+        vertical-align: middle;
+        height: 15px;
+        width: 70px;
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_6C757D);
+    }
+    &_open {
+        text-align: center;
+        vertical-align: middle;
+        height: 15px;
+        width: 70px;
+        border-bottom: 3px solid $color_blue;
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_blue);
+    }
+}
+
+.menu__container__favourites {
+    &_close {
+        text-align: center;
+        vertical-align: middle;
+        height: 15px;
+        width: 70px;
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_6C757D);
+    }
+    &_open {
+        text-align: center;
+        vertical-align: middle;
+        height: 15px;
+        width: 70px;
+        border-bottom: 3px solid $color_blue;
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_blue);
+    }
+}

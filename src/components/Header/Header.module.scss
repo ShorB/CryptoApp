@@ -1,0 +1,19 @@
+@import "../../variables/variables.scss";
+
+.header__container_close_input {
+    position: fixed;
+    width: $app_width;
+    height: $coin_container_margin_close;
+    max-height: $header_container_max_height;
+    z-index: 1;
+    background-color: $backgroung_color_default;
+}
+
+.header__container_open_input {
+    position: fixed;
+    width: $app_width;
+    height: $coin_container_margin_open;
+    max-height: $header_container_max_height;
+    z-index: 1;
+    background-color: $backgroung_color_default;
+}

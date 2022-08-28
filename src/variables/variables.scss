@@ -1,0 +1,36 @@
+$app_width: 375px;
+$coin_container_margin_close: 226px; 
+$coin_container_margin_open: 132px; 
+$app_container_input_close: 730px; 
+$app_container_input_open: 640px;
+$coin_item_width: 343px;
+$coin_item_height: 62px;
+$coin_item_border_radius: 8px;
+$coin_info_container: 97px;
+$coin_price_container_width: 94px;
+$coin_card_header_container_height: 56px;
+$filter_button_width: 98px;
+$filter_button_item_width: 96px;
+$filter_button_item_max_height: 96px;
+$filter_button_min_height: 24px;
+$header_container_max_height: 300px;
+$backgroung_color_default: #F8F9FA; 
+$color_6C757D: #6C757D;
+$color_212529: #212529;
+$color_343A40: #343A40;
+$color_green: #21BF73;
+$color_red: #D90429;
+$color_blue: #0063F5;
+$color_white: #FFFFFF;
+$color_black: #000000;
+$color_DFE2E4: #DFE2E4;
+$color_aliceblue: aliceblue;
+$color_slategray: slategray;
+@mixin font($font-family, $font-style, $font-weight, $font-size, $line-height, $color) {
+    font-family: $font-family;
+    font-style: $font-style;
+    font-weight: $font-weight;
+    font-size: $font-size;
+    line-height: $line-height;
+    color: $color;
+}
