@@ -22,12 +22,24 @@ const CoinItem = ({ coin }: CoinItemProps) => {
       <div className={styles.coin__price__container}>
         <div className={styles.coin__price}>{coin.curPrice}</div>
         {coin.priceChange >= 0 ? (
-          <div className={styles.coin__price__change_gainer}>
+          <div
+            className={
+              styles.coin__price__change_gainer +
+              " " +
+              styles.coin__price__change
+            }
+          >
             +{coin.priceChange.toFixed(2)}%
           </div>
         ) : (
-          <div className={styles.coin__price__change_loser}>
-            -{coin.priceChange.toFixed(2)}%
+          <div
+            className={
+              styles.coin__price__change_loser +
+              " " +
+              styles.coin__price__change
+            }
+          >
+            {coin.priceChange.toFixed(2)}%
           </div>
         )}
       </div>

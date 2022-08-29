@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import CoinCard from "@components/CoinCard/CoinCard";
-import CoinItemContainer from "@components/CoinItemContainer/CoinItemContainer";
+import CoinItemList from "@components/CoinItemList";
 import Header from "@components/Header/Header";
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -39,20 +39,33 @@ export type CurrenciesArray = {
 
 function App() {
   const [isInputSearchOpen, setIsInputSearchOpen] = useState(false);
-  const [category, SetCategory] = useState("all");
+  const [category, setCategory] = useState("all");
   const [currenciesArray, setCurrenciesArray] = useState([]);
   const [coins, setCoins] = useState([]);
   const [currency, setCurrency] = useState("USD");
-  // console.log(isInputSearchOpen) //eslint-disable-line
-  let coinContainerClassNames = "coin__container_input_close";
-  if (isInputSearchOpen === true) {
-    coinContainerClassNames = "coin__container_input_open";
-  }
   let appContainerClassNames = "app__container_input_close";
   if (isInputSearchOpen === true) {
     appContainerClassNames = "app__container_input_open";
   }
+  const fetchCur = useCallback(() => {
+    const fetchCur = async () => {
+      const result = await axios({
+        method: "get",
+        url: "https://api.coingecko.com/api/v3/simple/supported_vs_currencies",
+      });
+      setCurrenciesArray(
+        result.data.map((raw: CurrenciesArrayItemData) => ({
+          id: result.data.indexOf(raw),
+          currency: raw,
+        }))
+      );
+    };
+    fetchCur();
+  }, []);
   useEffect(() => {
+    fetchCur();
+  }, []);
+  const fetch = useCallback(() => {
     const fetch = async () => {
       const result = await axios({
         method: "get",
@@ -70,22 +83,10 @@ function App() {
         }))
       );
     };
-
-    const fetchCur = async () => {
-      const result = await axios({
-        method: "get",
-        url: "https://api.coingecko.com/api/v3/simple/supported_vs_currencies",
-      });
-      setCurrenciesArray(
-        result.data.map((raw: CurrenciesArrayItemData) => ({
-          id: result.data.indexOf(raw),
-          currency: raw,
-        }))
-      );
-    };
-
     fetch();
-    fetchCur();
+  }, [currency]);
+  useEffect(() => {
+    fetch();
   }, [currency]);
   return (
     <BrowserRouter>
@@ -99,15 +100,17 @@ function App() {
                 currenciesArray={currenciesArray}
                 currency={currency}
                 category={category}
-                changeCategory={(category: string) => SetCategory(category)}
+                changeCategory={(category: string) => setCategory(category)}
                 setIsInputSearchOpen={() =>
                   setIsInputSearchOpen(!isInputSearchOpen)
                 }
                 isInputSearchOpen={isInputSearchOpen}
               />
-              <div className={styles[coinContainerClassNames]}>
-                <CoinItemContainer category={category} coins={coins} />
-              </div>
+              <CoinItemList
+                isInputSearchOpen={isInputSearchOpen}
+                category={category}
+                coins={coins}
+              />
             </div>
           }
         />

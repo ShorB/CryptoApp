@@ -1,9 +1,4 @@
-@import "../../../variables/variables.scss";
-
-@font-face {
-    font-family: 'Circular Std';
-    src: url('../../../fonts/CircularStd-Medium.woff2');
-}
+@import "@variables/variables.scss";
 
 a {
     text-decoration:none;
@@ -35,11 +30,11 @@ a {
 }
 
 .coin__symbol {
-    @include font('Roboto', normal, 450, 12px, 15px, $color_6C757D);
+    @include font('Circular Std', normal, 450, 12px, 15px, $color_6C757D);
 }
 
 .coin__name {
-    @include font('Roboto', normal, 450, 16px, 20px, $color_212529);
+    @include font('Circular Std', normal, 450, 16px, 20px, $color_212529);
 }
 
 .coin__info__container {
@@ -47,6 +42,7 @@ a {
 }
 
 .coin__graph {
+    font: inherit;
     width: 50px;
     height: 25px;
     color: black;
@@ -56,7 +52,7 @@ a {
     display: flex;
     justify-content: flex-end;
     text-align: center;
-    @include font('Roboto', normal, 450, 16px, 20px, $color_343A40);
+    @include font('Circular Std', normal, 450, 16px, 20px, $color_343A40);
 }
 
 .coin__price__container {
@@ -68,14 +64,12 @@ a {
 }
 
 .coin__price__change {
+    display: flex;
+    justify-content: flex-end;
     &_gainer {
-        display: flex;
-        justify-content: flex-end;
-        @include font('Roboto', normal, 500, 10px, 13px, $color_green);
+        @include font('Circular Std', normal, 500, 10px, 13px, $color_green);
     }
     &_loser {
-        display: flex;
-        justify-content: flex-end;
-        @include font('Roboto', normal, 500, 10px, 13px, $color_red);
+        @include font('Circular Std', normal, 500, 10px, 13px, $color_red);
     }
 }

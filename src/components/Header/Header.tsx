@@ -31,7 +31,6 @@ const Header = ({
   if (isInputSearchOpen === true) {
     headerContainerClassNames = "header__container_open_input";
   }
-  console.log("result", isInputSearchOpen, isShow); //eslint-disable-line
   return (
     <div className={styles[headerContainerClassNames]}>
       <Input

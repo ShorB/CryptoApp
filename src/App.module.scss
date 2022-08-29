@@ -1,19 +1,12 @@
-@import "../src/variables/variables.scss";
+@import "@variables/variables.scss";
 
-.coin__container_input_close {
-    position: absolute;
-    width: $app_width;
-    margin: auto;
-    background-color: $backgroung_color_default;
-    top: $coin_container_margin_close;
+@font-face {
+    font-family: 'Circular Std';
+    src: url('/fonts/CircularStd-Medium.woff2');
 }
 
-.coin__container_input_open {
-    position: absolute;
-    width: $app_width;
-    margin: auto;
-    background-color: $backgroung_color_default;
-    top: $coin_container_margin_open;
+html {
+    font-family: 'Circular Std';
 }
 
 .app__container_input_close {

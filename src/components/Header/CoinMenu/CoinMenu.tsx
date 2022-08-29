@@ -1,7 +1,4 @@
-import { useState } from "react";
-
 import styles from "@components/Header/CoinMenu/CoinMenu.module.scss";
-import { NavLink } from "react-router-dom";
 
 type CoinMenuData = {
   category: string;
@@ -34,25 +31,35 @@ const CoinMenu = ({
     <div className={styles.menu__container}>
       <div
         onClick={() => changeCategory("all")}
-        className={styles[menuClassNamesAll]}
+        className={
+          styles[menuClassNamesAll] + " " + styles.menu__container__all
+        }
       >
         All
       </div>
       <div
         onClick={() => changeCategory("gainer")}
-        className={styles[menuClassNamesGainer]}
+        className={
+          styles[menuClassNamesGainer] + " " + styles.menu__container__gainer
+        }
       >
         Gainer
       </div>
       <div
         onClick={() => changeCategory("loser")}
-        className={styles[menuClassNamesLoser]}
+        className={
+          styles[menuClassNamesLoser] + " " + styles.menu__container__loser
+        }
       >
         Loser
       </div>
       <div
         onClick={() => changeCategory("favourites")}
-        className={styles[menuClassNamesFavourites]}
+        className={
+          styles[menuClassNamesFavourites] +
+          " " +
+          styles.menu__container__favourites
+        }
       >
         Favourites
       </div>

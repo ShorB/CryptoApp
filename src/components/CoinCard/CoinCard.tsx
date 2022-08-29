@@ -20,13 +20,12 @@ const CoinCard = ({ currency = "usd" }: CoinCardData) => {
         method: "get",
         url: `https://api.coingecko.com/api/v3/coins${location.pathname}`,
       });
-      console.log("result", currency); //eslint-disable-line
       setCoin({
         id: result.data.id,
         image: result.data.image.large,
         name: result.data.name,
         symbol: result.data.symbol,
-        curPrice: result.data.market_data.current_price[currency], //curPrice
+        curPrice: result.data.market_data.current_price[currency],
         priceChange:
           result.data.market_data.price_change_percentage_24h_in_currency[
             currency
@@ -82,11 +81,15 @@ const CoinCard = ({ currency = "usd" }: CoinCardData) => {
         </div>
         <div className={styles.coin__graph}></div>
         <div className={styles.coin__price__container}>
-          <div className={styles.coin__price}>00:00</div>
+          <div className={styles.coin__price}>{coin.curPrice}</div>
           {coin.priceChange >= 0 ? (
-            <div className={styles.coin__price__change_gainer}>00:00%</div>
+            <div className={styles.coin__price__change_gainer}>
+              {"+" + coin.priceChange + "%"}
+            </div>
           ) : (
-            <div className={styles.coin__price__change_loser}>00:00%</div>
+            <div className={styles.coin__price__change_loser}>
+              {coin.priceChange + "%"}
+            </div>
           )}
         </div>
       </div>

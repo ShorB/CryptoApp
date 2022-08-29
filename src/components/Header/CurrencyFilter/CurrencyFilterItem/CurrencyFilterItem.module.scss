@@ -1,9 +1,4 @@
-@import "../../../../variables/variables.scss";
-
-@font-face {
-    font-family: 'Roboto';
-    src: url('../../../../fonts/Roboto-Regular.ttf');
-}
+@import "@variables/variables.scss";
 
 .item__container {
     display: flex;
@@ -20,5 +15,5 @@
 .item__description {
     padding-left: 6px;
     vertical-align: middle;
-    @include font('Roboto', normal, 400, 12px, 14px, $color_6C757D);
+    @include font('Circular Std', normal, 400, 12px, 14px, $color_6C757D);
 }

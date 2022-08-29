@@ -24,18 +24,22 @@ const CurrencyFilterButton = ({
   isOpen
     ? (buttonClassName = "filter__button_open")
     : (buttonClassName = "filter__button_close");
-  let filtrListClassName = "filter__list__container_close";
+  let filterListClassName = "filter__list__container_close";
   isOpen
-    ? (filtrListClassName = "filter__list__container_open")
-    : (filtrListClassName = "filter__list__container_close");
+    ? (filterListClassName = "filter__list__container_open")
+    : (filterListClassName = "filter__list__container_close");
 
   return !isInputSearchOpen ? (
     <div className={styles.filter__list__container}>
       <div className={styles.coins__inscription}>Coins</div>
-      <div className={styles[filtrListClassName]}>
+      <div
+        className={
+          styles[filterListClassName] + " " + styles.filter__list__container_
+        }
+      >
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={styles[buttonClassName]}
+          className={styles[buttonClassName] + " " + styles.filter__button}
         >
           <div className={styles.button__description}>
             Market- {currency.toUpperCase()}
