@@ -41,7 +41,7 @@ function App() {
   const [isInputSearchOpen, setIsInputSearchOpen] = useState(false);
   const [category, setCategory] = useState("all");
   const [currenciesArray, setCurrenciesArray] = useState([]);
-  const [coins, setCoins] = useState([]);
+  const [coins, setCoins] = useState<CoinsData[]>([]);
   const [currency, setCurrency] = useState("USD");
   let appContainerClassNames = "app__container_input_close";
   if (isInputSearchOpen === true) {
@@ -65,29 +65,6 @@ function App() {
   useEffect(() => {
     fetchCur();
   }, []);
-  const fetch = useCallback(() => {
-    const fetch = async () => {
-      const result = await axios({
-        method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}`,
-      });
-      setCoins(
-        result.data.map((raw: RawData) => ({
-          id: raw.id,
-          image: raw.image,
-          name: raw.name,
-          symbol: raw.symbol,
-          curPrice: raw.current_price,
-          priceChange: raw.price_change_percentage_24h,
-          priceChangeFlat: raw.price_change_24h,
-        }))
-      );
-    };
-    fetch();
-  }, [currency]);
-  useEffect(() => {
-    fetch();
-  }, [currency]);
   return (
     <BrowserRouter>
       <Routes>
@@ -107,6 +84,8 @@ function App() {
                 isInputSearchOpen={isInputSearchOpen}
               />
               <CoinItemList
+                currency={currency}
+                setCoins={(coin: CoinsData[]) => setCoins(coin)}
                 isInputSearchOpen={isInputSearchOpen}
                 category={category}
                 coins={coins}
