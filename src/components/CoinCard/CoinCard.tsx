@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import styles from "@components/CoinCard/CoinCard.module.scss";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { CoinsData } from "src/App";
+import { CoinsData } from "src/types";
 
 import CoinCardHeader from "./CoinCardHeader/CoinCardHeader";
 
@@ -35,7 +35,7 @@ const CoinCard = ({ currency = "usd" }: CoinCardData) => {
       });
     };
     fetch();
-  }, []);
+  }, [currency, location.pathname]);
 
   return coin ? (
     <div className={styles.coin__card__container}>

@@ -8,7 +8,7 @@
         "@utils/*": ["src/utils/*"],
         "@img/*": ["src/img/*"],
         "@fonts/*": ["src/fonts/*"],
-        "@variables/*": ["src/variables/*"]
+        "@variables/*": ["src/variables/*"],
       }
     }
   }

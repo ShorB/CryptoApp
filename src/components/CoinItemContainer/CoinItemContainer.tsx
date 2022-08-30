@@ -1,15 +1,22 @@
 import CoinItem from "@components/CoinItemContainer/CoinItem/CoinItem";
 import styles from "@components/CoinItemContainer/CoinItemContainer.module.scss";
 import { NavLink } from "react-router-dom";
-import { CoinsData } from "src/App";
+import { CoinsData } from "src/types";
 
 type CoinItemContainerData = {
   coins: CoinsData[];
   category: string;
 };
 
+export enum Category {
+  all = "all",
+  gainer = "gainer",
+  loser = "loser",
+  favourites = "favourites",
+}
+
 const CoinItemContainer = ({ coins, category }: CoinItemContainerData) => {
-  if (category === "all") {
+  if (category === Category.all) {
     return (
       <div className={styles.coin__container}>
         <>
@@ -22,7 +29,7 @@ const CoinItemContainer = ({ coins, category }: CoinItemContainerData) => {
       </div>
     );
   }
-  if (category === "gainer") {
+  if (category === Category.gainer) {
     return (
       <div className={styles.coin__container}>
         <>
@@ -33,12 +40,11 @@ const CoinItemContainer = ({ coins, category }: CoinItemContainerData) => {
                 <CoinItem key={coin.id} coin={coin} />
               </NavLink>
             ))}
-          {/* //.sort((a, b) => a.priceChange - b.priceChange) */}
         </>
       </div>
     );
   }
-  if (category === "loser") {
+  if (category === Category.loser) {
     return (
       <div className={styles.coin__container}>
         <>
@@ -53,7 +59,7 @@ const CoinItemContainer = ({ coins, category }: CoinItemContainerData) => {
       </div>
     );
   }
-  if (category === "favourites") {
+  if (category === Category.favourites) {
     return (
       <div className={styles.coin__container}>
         <>

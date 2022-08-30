@@ -1,7 +1,7 @@
 import styles from "@components/CoinCard/CoinCardHeader/CoinCardHeader.module.scss";
 import Star from "@img/Vector.svg";
 import { NavLink } from "react-router-dom";
-import { CoinsData } from "src/App";
+import { CoinsData } from "src/types";
 
 type CoinCardHeaderData = {
   coin: CoinsData;

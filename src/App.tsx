@@ -1,45 +1,18 @@
 import React, { useEffect, useState, useCallback } from "react";
 
 import CoinCard from "@components/CoinCard/CoinCard";
+import { Category } from "@components/CoinItemContainer/CoinItemContainer";
 import CoinItemList from "@components/CoinItemList";
 import Header from "@components/Header/Header";
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CoinsData, CurrenciesArrayItemData } from "src/types";
 
 import styles from "./App.module.scss";
 
-export type CoinsData = {
-  id: string;
-  image: string;
-  name: string;
-  symbol: string;
-  curPrice: number;
-  priceChange: number;
-  priceChangeFlat: number;
-};
-
-export type RawData = {
-  id: string;
-  image: string;
-  name: string;
-  symbol: string;
-  current_price: number;
-  price_change_percentage_24h: number;
-  price_change_24h: number;
-};
-
-export type CurrenciesArrayItemData = {
-  id: number;
-  currency: string;
-};
-
-export type CurrenciesArray = {
-  currenciesArray: CurrenciesArrayItemData[];
-};
-
 function App() {
   const [isInputSearchOpen, setIsInputSearchOpen] = useState(false);
-  const [category, setCategory] = useState("all");
+  const [category, setCategory] = useState(Category.all);
   const [currenciesArray, setCurrenciesArray] = useState([]);
   const [coins, setCoins] = useState<CoinsData[]>([]);
   const [currency, setCurrency] = useState("USD");
@@ -64,7 +37,7 @@ function App() {
   }, []);
   useEffect(() => {
     fetchCur();
-  }, []);
+  }, [fetchCur]);
   return (
     <BrowserRouter>
       <Routes>
@@ -77,7 +50,7 @@ function App() {
                 currenciesArray={currenciesArray}
                 currency={currency}
                 category={category}
-                changeCategory={(category: string) => setCategory(category)}
+                changeCategory={(category: Category) => setCategory(category)}
                 setIsInputSearchOpen={() =>
                   setIsInputSearchOpen(!isInputSearchOpen)
                 }

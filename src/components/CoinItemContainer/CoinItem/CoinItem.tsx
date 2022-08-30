@@ -1,5 +1,5 @@
 import styles from "@components/CoinItemContainer/CoinItem/CoinItem.module.scss";
-import { CoinsData } from "src/App";
+import { CoinsData } from "src/types";
 
 type CoinItemProps = {
   coin: CoinsData;

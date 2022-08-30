@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import styles from "@components/Header/CurrencyFilter/CurrencyFilterButton/CurrencyFilterButton.module.scss";
-import { CurrenciesArrayItemData } from "src/App";
+import { CurrenciesArrayItemData } from "src/types";
 
 import CurrencyFilterItem from "../CurrencyFilterItem/CurrencyFilterItem";
 

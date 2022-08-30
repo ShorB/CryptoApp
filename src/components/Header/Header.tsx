@@ -1,7 +1,8 @@
 import { useState } from "react";
 
+import { Category } from "@components/CoinItemContainer/CoinItemContainer";
 import styles from "@components/Header/Header.module.scss";
-import { CurrenciesArrayItemData } from "src/App";
+import { CurrenciesArrayItemData } from "src/types";
 
 import CoinMenu from "./CoinMenu/CoinMenu";
 import CurrencyFilterButton from "./CurrencyFilter/CurrencyFilterButton/CurrencyFilterButton";
@@ -11,8 +12,8 @@ type HeaderData = {
   onClick: (currency: string) => void;
   currenciesArray: CurrenciesArrayItemData[];
   currency: string;
-  category: string;
-  changeCategory: (category: string) => void;
+  category: Category;
+  changeCategory: (category: Category) => void;
   setIsInputSearchOpen: () => void;
   isInputSearchOpen: boolean;
 };
