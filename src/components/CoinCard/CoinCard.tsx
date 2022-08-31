@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-import styles from "@components/CoinCard/CoinCard.module.scss";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { CoinsData } from "src/types";
 
+import styles from "./CoinCard.module.scss";
 import CoinCardHeader from "./CoinCardHeader/CoinCardHeader";
 
 type CoinCardData = {

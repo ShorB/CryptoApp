@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 
 import CoinItemContainer from "@components/CoinItemContainer/CoinItemContainer";
 import styles from "@components/CoinItemList/CoinItemList.module.scss";
@@ -20,7 +20,7 @@ const CoinItemList = ({
   category,
   isInputSearchOpen,
 }: CoinItemListData) => {
-  const fetch = useCallback(() => {
+  useEffect(() => {
     const fetch = async () => {
       const result = await axios({
         method: "get",
@@ -39,10 +39,7 @@ const CoinItemList = ({
       );
     };
     fetch();
-  }, [currency, setCoins]);
-  useEffect(() => {
-    fetch();
-  }, [currency, fetch]);
+  }, [currency]);
   let coinListClassNames = "coin__list__container_input_close";
   if (isInputSearchOpen === true) {
     coinListClassNames = "coin__list__container_input_open";

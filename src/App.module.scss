@@ -8,31 +8,3 @@
 html {
     font-family: 'Circular Std';
 }
-
-.app__container_input_close {
-    position: relative;
-    width: $app_width;
-    height: $app_container_input_close;
-    margin: auto;
-    overflow-y: auto;
-    overflow-x: hidden;
-    background-color: $backgroung_color_default;
-}
-
-.app__container_input_open {
-    position: relative;
-    width: $app_width;
-    height: $app_container_input_open;
-    margin: auto;
-    overflow-y: auto;
-    overflow-x: hidden;
-    background-color: $backgroung_color_default;
-}
-
-.app__container_input_close::-webkit-scrollbar {
-    width: 0;
-}
-
-.app__container_input_open::-webkit-scrollbar {
-    width: 0;
-}

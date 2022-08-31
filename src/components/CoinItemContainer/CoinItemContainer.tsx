@@ -1,7 +1,8 @@
 import CoinItem from "@components/CoinItemContainer/CoinItem/CoinItem";
-import styles from "@components/CoinItemContainer/CoinItemContainer.module.scss";
 import { NavLink } from "react-router-dom";
 import { CoinsData } from "src/types";
+
+import styles from "./CoinItemContainer.module.scss";
 
 type CoinItemContainerData = {
   coins: CoinsData[];
