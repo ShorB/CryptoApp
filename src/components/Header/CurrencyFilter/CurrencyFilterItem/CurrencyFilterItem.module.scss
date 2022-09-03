@@ -1,0 +1,19 @@
+@import "@variables/variables.scss";
+
+.item__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: $filter_button_item_width;
+    max-width: $filter_button_item_max_height;
+    min-height: $filter_button_min_height;
+    background: $backgroung_color_default;
+    border: 0.5px solid $color_DFE2E4;
+    padding: 1px 1px 1px 0px;
+}
+
+.item__description {
+    padding-left: 6px;
+    vertical-align: middle;
+    @include font('Circular Std', normal, 400, 12px, 14px, $color_6C757D);
+}

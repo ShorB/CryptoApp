@@ -1,0 +1,53 @@
+@import "../../../variables/variables.scss";
+
+.input_close {
+    left: 340px;
+    top: 72px;
+    position: relative;
+    width: 15px;
+    height: 15px; 
+    box-sizing: border-box;
+    background-color: $color_aliceblue;
+    border: 2px solid $color_slategray;
+    border-radius: 50%;
+}
+
+.input_close:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 8px;
+    height: 2px;
+    background-color: $color_slategray;
+    border-radius: 0 0.5px 0.5px 0;
+    transform-origin: 0 50%;
+    transform: translateX(100%) rotate(45deg);
+}
+
+.input_open__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 16px;
+    margin-right: 37px;
+    margin-top: 58px;
+}
+
+.input_open {
+    top: 65px;
+    width: 269px;
+    height: 40px;
+    background: $color_white;
+    border: 1px solid $color_DFE2E4;
+    border-radius: 4px;
+}
+
+.input_open__cancel {
+    padding-left: 15px;
+    @include font('Circular Std', normal, 450, 12px, 15px, $color_343A40);
+}
+
+input::-webkit-input-placeholder {
+    @include font('Circular Std', normal, 450, 12px, 15px, $color_DFE2E4);
+}

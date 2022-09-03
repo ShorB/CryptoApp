@@ -1,0 +1,47 @@
+@import "@variables/variables.scss";
+
+// .app__container_input_close {
+//     position: relative;
+//     width: $app_width;
+//     height: $app_container_input_close;
+//     margin: auto;
+//     overflow-y: auto;
+//     overflow-x: hidden;
+//     background-color: $backgroung_color_default;
+// }
+
+// .app__container_input_open {
+//     position: relative;
+//     width: $app_width;
+//     height: $app_container_input_open;
+//     margin: auto;
+//     overflow-y: auto;
+//     overflow-x: hidden;
+//     background-color: $backgroung_color_default;
+// }
+
+// .app__container_input_close::-webkit-scrollbar {
+//     width: 0;
+// }
+
+// .app__container_input_open::-webkit-scrollbar {
+//     width: 0;
+// }
+
+.header__container_close_input {
+    position: fixed;
+    width: $app_width;
+    height: $coin_container_margin_close;
+    max-height: $header_container_max_height;
+    z-index: 1;
+    background-color: $backgroung_color_default;
+}
+
+.header__container_open_input {
+    position: fixed;
+    width: $app_width;
+    height: $coin_container_margin_open;
+    max-height: $header_container_max_height;
+    z-index: 1;
+    background-color: $backgroung_color_default;
+}

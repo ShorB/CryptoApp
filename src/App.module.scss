@@ -1,0 +1,10 @@
+@import "@variables/variables.scss";
+
+@font-face {
+    font-family: 'Circular Std';
+    src: url('/fonts/CircularStd-Medium.woff2');
+}
+
+html {
+    font-family: 'Circular Std';
+}
