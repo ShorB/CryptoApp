@@ -1,63 +1,66 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 
 import CoinCard from "@components/CoinCard/CoinCard";
 import { Category } from "@components/CoinItemContainer/CoinItemContainer";
 import PageList from "@components/PageList";
-import axios from "axios";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CoinsData, CurrenciesArrayItemData } from "src/types";
+import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
+import { Routes, Route } from "react-router-dom";
+
+import CategoryStore from "./store/local/CategoryStore";
+import CurrencyApiStore from "./store/local/CurrencyApiStore/CurrencyApiStore";
+import CurrentCurrencyStore from "./store/local/CurrentCurrencyStore";
+import InputValueStore from "./store/local/InputValueStore";
+import IsInputSearchOpenStore from "./store/local/IsInputSearchOpenStore";
 
 function App() {
-  console.log("app render") //eslint-disable-line
-  const [isInputSearchOpen, setIsInputSearchOpen] = useState(false);
-  const [category, setCategory] = useState(Category.all);
-  const [currenciesArray, setCurrenciesArray] = useState([]);
-  const [coins, setCoins] = useState<CoinsData[]>([]);
-  const [currency, setCurrency] = useState("USD");
+  const inputStoreValue = useLocalStore(() => new InputValueStore());
+  const isInputSearchOpenStore = useLocalStore(
+    () => new IsInputSearchOpenStore(false)
+  );
+  const categoryStore = useLocalStore(() => new CategoryStore(Category.all));
+  const currenctCurrencyStore = useLocalStore(
+    () => new CurrentCurrencyStore("usd")
+  );
+  const currencyApiStore = useLocalStore(() => new CurrencyApiStore());
   useEffect(() => {
-    const fetchCur = async () => {
-      const result = await axios({
-        method: "get",
-        url: "https://api.coingecko.com/api/v3/simple/supported_vs_currencies",
-      });
-      setCurrenciesArray(
-        result.data.map((raw: CurrenciesArrayItemData) => ({
-          id: result.data.indexOf(raw),
-          currency: raw,
-        }))
-      );
-    };
-    fetchCur();
-  }, []);
+    currencyApiStore.fetchCur();
+  }, [currencyApiStore]);
   const toogleInputSearchOpen = useCallback(() => {
-    setIsInputSearchOpen(!isInputSearchOpen);
-  }, [isInputSearchOpen]);
+    isInputSearchOpenStore.changeIsInputSearchOpen();
+  }, [isInputSearchOpenStore]);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <PageList
-              onClick={(currency: string) => setCurrency(currency)}
-              currenciesArray={currenciesArray}
-              currency={currency}
-              category={category}
-              changeCategory={(category: Category) => setCategory(category)}
-              setIsInputSearchOpen={toogleInputSearchOpen}
-              isInputSearchOpen={isInputSearchOpen}
-              setCoins={(coin: CoinsData[]) => setCoins(coin)}
-              coins={coins}
-            />
-          }
-        />
-        <Route
-          path="/:id"
-          element={<CoinCard currency={currency.toLocaleLowerCase()} />}
-        />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <PageList
+            onClick={(currency: string) =>
+              currenctCurrencyStore.changeCurrency(currency)
+            }
+            currenciesArray={currencyApiStore.сurrenciesArray}
+            currency={currenctCurrencyStore.curCurrency.toLowerCase()}
+            category={categoryStore.category}
+            changeCategory={(category: Category) =>
+              categoryStore.changeCategory(category)
+            }
+            setIsInputSearchOpen={toogleInputSearchOpen}
+            isInputSearchOpen={isInputSearchOpenStore.isInputSearchOpen}
+            value={inputStoreValue.value}
+            setValue={(value: string) => inputStoreValue.setValue(value)}
+          />
+        }
+      />
+      <Route
+        path="/:id"
+        element={
+          <CoinCard
+            currency={currenctCurrencyStore.curCurrency.toLowerCase()}
+          />
+        }
+      />
+    </Routes>
   );
 }
 
-export default App;
+export default observer(App);

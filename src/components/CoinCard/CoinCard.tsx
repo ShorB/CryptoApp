@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-import axios from "axios";
+import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
-import { CoinsData } from "src/types";
 
+import CoinCardApiStore from "../../store/local/CoinCardApiStore/CoinCardApiStore";
 import styles from "./CoinCard.module.scss";
 import CoinCardHeader from "./CoinCardHeader/CoinCardHeader";
 
@@ -13,33 +14,16 @@ type CoinCardData = {
 
 const CoinCard = ({ currency = "usd" }: CoinCardData) => {
   const location = useLocation();
-  const [coin, setCoin] = useState<CoinsData | null>(null);
+  const coinCardApiStore = useLocalStore(
+    () => new CoinCardApiStore(currency, location)
+  );
   useEffect(() => {
-    const fetch = async () => {
-      const result = await axios({
-        method: "get",
-        url: `https://api.coingecko.com/api/v3/coins${location.pathname}`,
-      });
-      setCoin({
-        id: result.data.id,
-        image: result.data.image.large,
-        name: result.data.name,
-        symbol: result.data.symbol,
-        curPrice: result.data.market_data.current_price[currency],
-        priceChange:
-          result.data.market_data.price_change_percentage_24h_in_currency[
-            currency
-          ],
-        priceChangeFlat:
-          result.data.market_data.price_change_24h_in_currency[currency],
-      });
-    };
-    fetch();
-  }, [currency, location.pathname]);
-
-  return coin ? (
+    coinCardApiStore.fetch();
+  }, [coinCardApiStore]);
+  console.log(location)//eslint-disable-line
+  return coinCardApiStore.coin ? (
     <div className={styles.coin__card__container}>
-      <CoinCardHeader coin={coin} />
+      <CoinCardHeader coin={coinCardApiStore.coin} />
       <div className={styles.coin__card__graph__container}>
         <div className={styles.coin__card__graph}>красивый график</div>
       </div>
@@ -70,25 +54,27 @@ const CoinCard = ({ currency = "usd" }: CoinCardData) => {
         <div className={styles.coin__image__container}>
           <div
             className={styles.coin__image}
-            style={{ backgroundImage: `url(${coin.image})` }}
+            style={{ backgroundImage: `url(${coinCardApiStore.coin.image})` }}
           ></div>
         </div>
         <div className={styles.coin__info__container}>
-          <div className={styles.coin__name}>{coin.name}</div>
+          <div className={styles.coin__name}>{coinCardApiStore.coin.name}</div>
           <div className={styles.coin__symbol}>
-            {"00:00 " + coin.symbol.toUpperCase()}
+            {"00:00 " + coinCardApiStore.coin.symbol.toUpperCase()}
           </div>
         </div>
         <div className={styles.coin__graph}></div>
         <div className={styles.coin__price__container}>
-          <div className={styles.coin__price}>{coin.curPrice}</div>
-          {coin.priceChange >= 0 ? (
+          <div className={styles.coin__price}>
+            {coinCardApiStore.coin.curPrice}
+          </div>
+          {coinCardApiStore.coin.priceChange >= 0 ? (
             <div className={styles.coin__price__change_gainer}>
-              {"+" + coin.priceChange + "%"}
+              {"+" + coinCardApiStore.coin.priceChange + "%"}
             </div>
           ) : (
             <div className={styles.coin__price__change_loser}>
-              {coin.priceChange + "%"}
+              {coinCardApiStore.coin.priceChange + "%"}
             </div>
           )}
         </div>
@@ -100,4 +86,4 @@ const CoinCard = ({ currency = "usd" }: CoinCardData) => {
   ) : null;
 };
 
-export default CoinCard;
+export default observer(CoinCard);

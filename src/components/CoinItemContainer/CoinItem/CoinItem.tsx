@@ -1,4 +1,5 @@
 import styles from "@components/CoinItemContainer/CoinItem/CoinItem.module.scss";
+import { observer } from "mobx-react-lite";
 import { CoinsData } from "src/types";
 
 type CoinItemProps = {
@@ -47,4 +48,4 @@ const CoinItem = ({ coin }: CoinItemProps) => {
   );
 };
 
-export default CoinItem;
+export default observer(CoinItem);

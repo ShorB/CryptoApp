@@ -1,45 +1,30 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 import CoinItemContainer from "@components/CoinItemContainer/CoinItemContainer";
 import styles from "@components/CoinItemList/CoinItemList.module.scss";
-import axios from "axios";
-import { CoinsData, RawData } from "src/types";
+import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
+
+import CoinApiStore from "../../store/local/CoinApiStore/CoinApiStore";
 
 type CoinItemListData = {
-  setCoins: (coin: CoinsData[]) => void;
-  coins: CoinsData[];
   category: string;
   isInputSearchOpen: boolean;
   currency: string;
+  value: string;
 };
 
 const CoinItemList = ({
-  setCoins,
   currency,
-  coins,
   category,
   isInputSearchOpen,
+  value,
 }: CoinItemListData) => {
+  const coinApiStore = useLocalStore(() => new CoinApiStore(currency));
   useEffect(() => {
-    const fetch = async () => {
-      const result = await axios({
-        method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}`,
-      });
-      setCoins(
-        result.data.map((raw: RawData) => ({
-          id: raw.id,
-          image: raw.image,
-          name: raw.name,
-          symbol: raw.symbol,
-          curPrice: raw.current_price,
-          priceChange: raw.price_change_percentage_24h,
-          priceChangeFlat: raw.price_change_24h,
-        }))
-      );
-    };
-    fetch();
-  }, [currency]);
+    coinApiStore.load(currency);
+    coinApiStore.fetch();
+  }, [coinApiStore, currency]);
   let coinListClassNames = "coin__list__container_input_close";
   if (isInputSearchOpen === true) {
     coinListClassNames = "coin__list__container_input_open";
@@ -47,10 +32,14 @@ const CoinItemList = ({
   return (
     <div className={styles.coin__container}>
       <div className={styles[coinListClassNames]}>
-        <CoinItemContainer category={category} coins={coins} />
+        <CoinItemContainer
+          value={value}
+          category={category}
+          coins={coinApiStore.coins}
+        />
       </div>
     </div>
   );
 };
 
-export default CoinItemList;
+export default observer(CoinItemList);
