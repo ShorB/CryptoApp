@@ -41,14 +41,11 @@ const PageList = ({
         changeCategory={changeCategory}
         setIsInputSearchOpen={setIsInputSearchOpen}
         isInputSearchOpen={isInputSearchOpen}
-        value={value}
-        setValue={setValue}
       />
       <CoinItemList
         currency={currency}
         isInputSearchOpen={isInputSearchOpen}
         category={category}
-        value={value}
       />
     </div>
   );

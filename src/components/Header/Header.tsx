@@ -16,8 +16,6 @@ type HeaderData = {
   changeCategory: (category: Category) => void;
   setIsInputSearchOpen: () => void;
   isInputSearchOpen: boolean;
-  value: string;
-  setValue: (value: string) => void;
 };
 
 const Header = ({
@@ -28,8 +26,6 @@ const Header = ({
   changeCategory,
   setIsInputSearchOpen,
   isInputSearchOpen,
-  value,
-  setValue,
 }: HeaderData) => {
   const [isShow, setIsShow] = useState(true);
   let headerContainerClassNames = "header__container_close_input";
@@ -42,8 +38,6 @@ const Header = ({
         show={() => setIsShow(!isShow)}
         setIsInputSearchOpen={setIsInputSearchOpen}
         isInputSearchOpen={isInputSearchOpen}
-        value={value}
-        setValue={setValue}
       />
       {!isInputSearchOpen && (
         <CurrencyFilterButton

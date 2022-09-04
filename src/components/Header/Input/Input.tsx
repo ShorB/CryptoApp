@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, useContext } from "react";
 
 import styles from "@components/Header/Input/Input.module.scss";
 import {
@@ -7,21 +7,20 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
+import { GlobalStoreContext } from "../../../App";
+
 type InputData = {
   show: () => void;
   setIsInputSearchOpen: () => void;
   isInputSearchOpen: boolean;
-  value: string;
-  setValue: (value: string) => void;
 };
 
 const Input = ({
   show,
   setIsInputSearchOpen,
   isInputSearchOpen,
-  value,
-  setValue,
 }: InputData) => {
+  const globalStoreContext = useContext(GlobalStoreContext);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [isInputOpen, setIsInputOpen] = useState(false);
@@ -29,25 +28,31 @@ const Input = ({
     setIsInputOpen(false);
     show();
     setIsInputSearchOpen();
-    setValue("");
+    globalStoreContext.globalStore.setValue("");
+  }
+  function handleCancelOnClick() {
+    show();
+    setIsInputSearchOpen();
+    globalStoreContext.globalStore.setValue("");
+    globalStoreContext.globalStore.fetch();
   }
   function handleSetValue(event: ChangeEvent<HTMLInputElement>) {
-    setValue(event.target.value);
+    globalStoreContext.globalStore.setValue(event.target.value);
   }
   useEffect(() => {
     navigate({
       pathname: "/",
       search: createSearchParams({
-        search: value,
+        search: globalStoreContext.globalStore.value,
       }).toString(),
     });
-  }, [navigate, value]);
+  }, [navigate, globalStoreContext.globalStore.value]);
   useEffect(() => {
     let search = searchParams.get("search");
     if (search) {
-      setValue(search);
+      globalStoreContext.globalStore.setValue(search);
     }
-  }, []);
+  }, [globalStoreContext.globalStore, searchParams]);
   return (
     <div className={styles.input__container}>
       {!isInputOpen && !isInputSearchOpen && (
@@ -56,12 +61,15 @@ const Input = ({
       {isInputSearchOpen && (
         <div className={styles.input_open__container}>
           <input
-            value={value}
+            value={globalStoreContext.globalStore.value}
             onChange={handleSetValue}
             className={styles.input_open}
             placeholder="Search Cryptocurrency"
           ></input>
-          <div className={styles.input_open__cancel} onClick={handleOnClick}>
+          <div
+            className={styles.input_open__cancel}
+            onClick={handleCancelOnClick}
+          >
             Cancel
           </div>
         </div>

@@ -30,7 +30,7 @@ const CoinItem = ({ coin }: CoinItemProps) => {
               styles.coin__price__change
             }
           >
-            +{coin.priceChange.toFixed(2)}%
+            +{coin.priceChange?.toFixed(2)}%
           </div>
         ) : (
           <div
@@ -40,7 +40,7 @@ const CoinItem = ({ coin }: CoinItemProps) => {
               styles.coin__price__change
             }
           >
-            {coin.priceChange.toFixed(2)}%
+            {coin.priceChange?.toFixed(2)}%
           </div>
         )}
       </div>

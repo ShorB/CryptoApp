@@ -1,30 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 
 import CoinItemContainer from "@components/CoinItemContainer/CoinItemContainer";
 import styles from "@components/CoinItemList/CoinItemList.module.scss";
-import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 
-import CoinApiStore from "../../store/local/CoinApiStore/CoinApiStore";
+import { GlobalStoreContext } from "../../App";
 
 type CoinItemListData = {
   category: string;
   isInputSearchOpen: boolean;
   currency: string;
-  value: string;
 };
 
 const CoinItemList = ({
   currency,
   category,
   isInputSearchOpen,
-  value,
 }: CoinItemListData) => {
-  const coinApiStore = useLocalStore(() => new CoinApiStore(currency));
+  const globalStoreContext = useContext(GlobalStoreContext);
   useEffect(() => {
-    coinApiStore.load(currency);
-    coinApiStore.fetch();
-  }, [coinApiStore, currency]);
+    if (!isInputSearchOpen) {
+      globalStoreContext.globalStore.load(currency);
+      globalStoreContext.globalStore.fetch();
+    }
+  }, [globalStoreContext.globalStore, currency, isInputSearchOpen]);
   let coinListClassNames = "coin__list__container_input_close";
   if (isInputSearchOpen === true) {
     coinListClassNames = "coin__list__container_input_open";
@@ -33,9 +32,8 @@ const CoinItemList = ({
     <div className={styles.coin__container}>
       <div className={styles[coinListClassNames]}>
         <CoinItemContainer
-          value={value}
           category={category}
-          coins={coinApiStore.coins}
+          coins={globalStoreContext.globalStore.coins}
         />
       </div>
     </div>

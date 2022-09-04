@@ -3,9 +3,9 @@ import { action, computed, makeObservable, observable } from "mobx";
 type PrivateFields = "_isInputSearchOpen";
 
 export default class IsInputSearchOpenStore {
-  private _isInputSearchOpen: boolean = false;
-  constructor(isInputSearchOpen: boolean) {
-    this._isInputSearchOpen = isInputSearchOpen;
+  private _isInputSearchOpen: boolean;
+  constructor(isInputSearchOpen: boolean, value: string) {
+    this._isInputSearchOpen = value ? true : isInputSearchOpen;
     makeObservable<IsInputSearchOpenStore, PrivateFields>(this, {
       _isInputSearchOpen: observable,
       changeIsInputSearchOpen: action,
