@@ -12,8 +12,6 @@ export type PageListData = {
   changeCategory: (category: Category) => void;
   setIsInputSearchOpen: () => void;
   isInputSearchOpen: boolean;
-  value: string;
-  setValue: (value: string) => void;
 };
 
 const PageList = ({
@@ -24,8 +22,6 @@ const PageList = ({
   changeCategory,
   setIsInputSearchOpen,
   isInputSearchOpen,
-  value,
-  setValue,
 }: PageListData) => {
   let PageListContainerClassNames = "page__list__container_input_close";
   if (isInputSearchOpen === true) {

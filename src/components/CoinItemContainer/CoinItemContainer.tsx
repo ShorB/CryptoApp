@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 
 import CoinItem from "@components/CoinItemContainer/CoinItem/CoinItem";
+import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 import { Virtuoso } from "react-virtuoso";
@@ -24,13 +25,16 @@ export enum Category {
 const CoinItemContainer = ({ coins, category }: CoinItemContainerData) => {
   const globalStoreContext = useContext(GlobalStoreContext);
   const [page, setPage] = useState(1);
-  useEffect(() => {
-    if (globalStoreContext.globalStore.value) {
-      globalStoreContext.globalStore.fetchSearch(
-        globalStoreContext.globalStore.value
-      );
-    }
-  }, [globalStoreContext.globalStore, globalStoreContext.globalStore.value]);
+  useEffect(
+    action(() => {
+      if (globalStoreContext.globalStore.value) {
+        globalStoreContext.globalStore.fetchSearch(
+          globalStoreContext.globalStore.value
+        );
+      }
+    }),
+    [globalStoreContext.globalStore, globalStoreContext.globalStore.value]
+  );
   const loadMore = () => {
     setPage(page + 1);
     return globalStoreContext.globalStore.fetchInf(page + 1);

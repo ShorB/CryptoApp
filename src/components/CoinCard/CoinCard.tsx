@@ -20,7 +20,6 @@ const CoinCard = ({ currency = "usd" }: CoinCardData) => {
   useEffect(() => {
     coinCardApiStore.fetch();
   }, [coinCardApiStore]);
-  console.log(location)//eslint-disable-line
   return coinCardApiStore.coin ? (
     <div className={styles.coin__card__container}>
       <CoinCardHeader coin={coinCardApiStore.coin} />

@@ -1,6 +1,8 @@
 import { ChangeEvent, useEffect, useState, useContext } from "react";
 
 import styles from "@components/Header/Input/Input.module.scss";
+import { action } from "mobx";
+import { observer } from "mobx-react-lite";
 import {
   createSearchParams,
   useNavigate,
@@ -39,14 +41,17 @@ const Input = ({
   function handleSetValue(event: ChangeEvent<HTMLInputElement>) {
     globalStoreContext.globalStore.setValue(event.target.value);
   }
-  useEffect(() => {
-    navigate({
-      pathname: "/",
-      search: createSearchParams({
-        search: globalStoreContext.globalStore.value,
-      }).toString(),
-    });
-  }, [navigate, globalStoreContext.globalStore.value]);
+  useEffect(
+    action(() => {
+      navigate({
+        pathname: "/",
+        search: createSearchParams({
+          search: globalStoreContext.globalStore.value,
+        }).toString(),
+      });
+    }),
+    [navigate, globalStoreContext.globalStore.value]
+  );
   useEffect(() => {
     let search = searchParams.get("search");
     if (search) {
@@ -78,4 +83,4 @@ const Input = ({
   );
 };
 
-export default Input;
+export default observer(Input);

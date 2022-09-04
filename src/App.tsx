@@ -53,8 +53,6 @@ function App() {
               }
               setIsInputSearchOpen={toogleInputSearchOpen}
               isInputSearchOpen={isInputSearchOpenStore.isInputSearchOpen}
-              value={globalStore.value}
-              setValue={(value: string) => globalStore.setValue(value)}
             />
           }
         />
