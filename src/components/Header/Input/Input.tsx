@@ -20,6 +20,8 @@ const Input = ({ show }: InputData) => {
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
   let essencesValue = essencesStoreContext.essencesStore.value;
+  let openStoreSetIsCancelClick = () =>
+    openStoreContext.openStore.setIsCancelClick();
   const navigate = useNavigate();
   const [isInputOpen, setIsInputOpen] = useState(false);
   function handleOnClick() {
@@ -33,6 +35,7 @@ const Input = ({ show }: InputData) => {
     openStoreContext.openStore.setSearch("");
     openStoreContext.openStore.dropInputSearch();
     openStoreContext.openStore.setSearch(search);
+    openStoreSetIsCancelClick();
     essencesStoreContext.essencesStore.setValue("");
   }
   function handleSetValue(event: ChangeEvent<HTMLInputElement>) {

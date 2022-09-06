@@ -28,12 +28,14 @@ function App() {
   const globalApiStore = useLocalStore(() => new GlobalApiStore());
   const essencesStore = useLocalStore(() => new EssencesStore());
   const openStore = useLocalStore(() => new OpenStore());
+  const openStoreIsCancelClick = openStore.isCancelClick;
   openStore.setSearch(search);
   useEffect(() => {
-    if (!search) {
+    if (!search && openStoreIsCancelClick) {
       openStore.setInputSearch(false);
+      openStore.setIsCancelClick();
     }
-  }, [search, openStore]);
+  }, [search, openStore, openStoreIsCancelClick]);
   let globalCurrenciesArray = globalApiStore.currenciesArray;
   useEffect(() => {
     globalApiStore.fetch(
@@ -48,7 +50,6 @@ function App() {
   useEffect(() => {
     essencesStore.setCurrenciesArray(globalCurrenciesArray);
   }, [essencesStore, globalCurrenciesArray]);
-  console.log(openStore.isInputSearchOpen); //eslint-disable-line
   return (
     <GlobalApiStoreContext.Provider value={{ globalApiStore }}>
       <EssencesStoreContext.Provider value={{ essencesStore }}>
