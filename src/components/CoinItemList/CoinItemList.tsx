@@ -4,26 +4,44 @@ import CoinItemContainer from "@components/CoinItemContainer/CoinItemContainer";
 import styles from "@components/CoinItemList/CoinItemList.module.scss";
 import { observer } from "mobx-react-lite";
 
-import { GlobalStoreContext } from "../../App";
+import {
+  EssencesStoreContext,
+  GlobalApiStoreContext,
+  OpenStoreContext,
+} from "../../App";
 
 type CoinItemListData = {
-  category: string;
   isInputSearchOpen: boolean;
-  currency: string;
 };
 
-const CoinItemList = ({
-  currency,
-  category,
-  isInputSearchOpen,
-}: CoinItemListData) => {
-  const globalStoreContext = useContext(GlobalStoreContext);
+const CoinItemList = ({ isInputSearchOpen }: CoinItemListData) => {
+  const globalApiStoreContext = useContext(GlobalApiStoreContext);
+  const essencesStoreContext = useContext(EssencesStoreContext);
+  const openStoreContext = useContext(OpenStoreContext);
+  let currentCurrency = essencesStoreContext.essencesStore.currentCurrency;
+  let globalCoins = globalApiStoreContext.globalApiStore.coins;
+  let openStoreIsInputSearchOpen = openStoreContext.openStore.isInputSearchOpen;
   useEffect(() => {
-    if (!isInputSearchOpen) {
-      globalStoreContext.globalStore.load(currency);
-      globalStoreContext.globalStore.fetch();
+    if (!openStoreIsInputSearchOpen) {
+      essencesStoreContext.essencesStore.changeCurrentCurrency(currentCurrency);
+      globalApiStoreContext.globalApiStore.fetch(
+        "https://api.coingecko.com/api/v3/coins/markets",
+        "getCoins",
+        "",
+        1,
+        "",
+        currentCurrency
+      );
     }
-  }, [globalStoreContext.globalStore, currency, isInputSearchOpen]);
+  }, [
+    globalApiStoreContext.globalApiStore,
+    currentCurrency,
+    essencesStoreContext.essencesStore,
+    openStoreIsInputSearchOpen,
+  ]);
+  useEffect(() => {
+    essencesStoreContext.essencesStore.setCoins(globalCoins);
+  }, [globalCoins, essencesStoreContext.essencesStore]);
   let coinListClassNames = "coin__list__container_input_close";
   if (isInputSearchOpen === true) {
     coinListClassNames = "coin__list__container_input_open";
@@ -31,10 +49,7 @@ const CoinItemList = ({
   return (
     <div className={styles.coin__container}>
       <div className={styles[coinListClassNames]}>
-        <CoinItemContainer
-          category={category}
-          coins={globalStoreContext.globalStore.coins}
-        />
+        <CoinItemContainer />
       </div>
     </div>
   );

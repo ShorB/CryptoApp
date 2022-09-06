@@ -1,71 +1,72 @@
-import { useEffect, useCallback, createContext } from "react";
+import { useEffect, createContext } from "react";
 
 import CoinCard from "@components/CoinCard/CoinCard";
-import { Category } from "@components/CoinItemContainer/CoinItemContainer";
 import PageList from "@components/PageList";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import { Routes, Route, useSearchParams } from "react-router-dom";
 
-import GlobalStore from "./store/global/GlobalStore";
-import CategoryStore from "./store/local/CategoryStore";
-import CurrencyApiStore from "./store/local/CurrencyApiStore/CurrencyApiStore";
-import CurrentCurrencyStore from "./store/local/CurrentCurrencyStore";
-import IsInputSearchOpenStore from "./store/local/IsInputSearchOpenStore";
+import EssencesStore from "./store/global/EssencesStore";
+import GlobalApiStore from "./store/global/GlobalApiStore";
+import OpenStore from "./store/global/OpenStore";
 
-export const GlobalStoreContext = createContext({
-  globalStore: new GlobalStore("usd"),
+export const GlobalApiStoreContext = createContext({
+  globalApiStore: new GlobalApiStore(),
+});
+
+export const EssencesStoreContext = createContext({
+  essencesStore: new EssencesStore(),
+});
+
+export const OpenStoreContext = createContext({
+  openStore: new OpenStore(),
 });
 
 function App() {
   const [searchParams] = useSearchParams();
   let search = searchParams.get("search");
-  const globalStore = useLocalStore(() => new GlobalStore("usd"));
-  const categoryStore = useLocalStore(() => new CategoryStore(Category.all));
-  const currenctCurrencyStore = useLocalStore(
-    () => new CurrentCurrencyStore("usd")
-  );
-  const currencyApiStore = useLocalStore(() => new CurrencyApiStore());
+  const globalApiStore = useLocalStore(() => new GlobalApiStore());
+  const essencesStore = useLocalStore(() => new EssencesStore());
+  const openStore = useLocalStore(() => new OpenStore());
+  openStore.setSearch(search);
   useEffect(() => {
-    currencyApiStore.fetchCur();
-  }, [currencyApiStore]);
-  const isInputSearchOpenStore = useLocalStore(
-    () => new IsInputSearchOpenStore(false, search!)
-  );
-  const toogleInputSearchOpen = useCallback(() => {
-    isInputSearchOpenStore.changeIsInputSearchOpen();
-  }, [isInputSearchOpenStore]);
+    if (!search) {
+      openStore.setInputSearch(false);
+    }
+  }, [search, openStore]);
+  let globalCurrenciesArray = globalApiStore.currenciesArray;
+  useEffect(() => {
+    globalApiStore.fetch(
+      "https://api.coingecko.com/api/v3/simple/supported_vs_currencies",
+      "getCurrencies",
+      "",
+      0,
+      "",
+      ""
+    );
+  }, [globalApiStore]);
+  useEffect(() => {
+    essencesStore.setCurrenciesArray(globalCurrenciesArray);
+  }, [essencesStore, globalCurrenciesArray]);
+  console.log(openStore.isInputSearchOpen); //eslint-disable-line
   return (
-    <GlobalStoreContext.Provider value={{ globalStore }}>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <PageList
-              onClick={(currency: string) =>
-                currenctCurrencyStore.changeCurrency(currency)
+    <GlobalApiStoreContext.Provider value={{ globalApiStore }}>
+      <EssencesStoreContext.Provider value={{ essencesStore }}>
+        <OpenStoreContext.Provider value={{ openStore }}>
+          <Routes>
+            <Route path="/" element={<PageList />} />
+            <Route
+              path="/:id"
+              element={
+                <CoinCard
+                  currency={essencesStore.currentCurrency.toLowerCase()}
+                />
               }
-              currenciesArray={currencyApiStore.сurrenciesArray}
-              currency={currenctCurrencyStore.curCurrency.toLowerCase()}
-              category={categoryStore.category}
-              changeCategory={(category: Category) =>
-                categoryStore.changeCategory(category)
-              }
-              setIsInputSearchOpen={toogleInputSearchOpen}
-              isInputSearchOpen={isInputSearchOpenStore.isInputSearchOpen}
             />
-          }
-        />
-        <Route
-          path="/:id"
-          element={
-            <CoinCard
-              currency={currenctCurrencyStore.curCurrency.toLowerCase()}
-            />
-          }
-        />
-      </Routes>
-    </GlobalStoreContext.Provider>
+          </Routes>
+        </OpenStoreContext.Provider>
+      </EssencesStoreContext.Provider>
+    </GlobalApiStoreContext.Provider>
   );
 }
 

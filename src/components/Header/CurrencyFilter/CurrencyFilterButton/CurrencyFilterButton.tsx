@@ -1,23 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import styles from "@components/Header/CurrencyFilter/CurrencyFilterButton/CurrencyFilterButton.module.scss";
-import { CurrenciesArrayItemData } from "src/types";
+import { observer } from "mobx-react-lite";
 
+import { EssencesStoreContext, OpenStoreContext } from "../../../../App";
 import CurrencyFilterItem from "../CurrencyFilterItem/CurrencyFilterItem";
 
-export type CurrenciesFilterButtonData = {
-  onClick: (currency: string) => void;
-  currenciesArray: CurrenciesArrayItemData[];
-  currency: string;
-  isInputSearchOpen: boolean;
-};
-
-const CurrencyFilterButton = ({
-  onClick,
-  currenciesArray,
-  currency,
-  isInputSearchOpen,
-}: CurrenciesFilterButtonData) => {
+const CurrencyFilterButton = () => {
+  const essencesStoreContext = useContext(EssencesStoreContext);
+  const openStoreContext = useContext(OpenStoreContext);
   const [isOpen, setIsOpen] = useState(false);
 
   let buttonClassName = "filter__button_close";
@@ -29,7 +20,7 @@ const CurrencyFilterButton = ({
     ? (filterListClassName = "filter__list__container_open")
     : (filterListClassName = "filter__list__container_close");
 
-  return !isInputSearchOpen ? (
+  return !openStoreContext.openStore.isInputSearchOpen ? (
     <div className={styles.filter__list__container}>
       <div className={styles.coins__inscription}>Coins</div>
       <div
@@ -42,7 +33,8 @@ const CurrencyFilterButton = ({
           className={styles[buttonClassName] + " " + styles.filter__button}
         >
           <div className={styles.button__description}>
-            Market- {currency.toUpperCase()}
+            Market-{" "}
+            {essencesStoreContext.essencesStore.currentCurrency.toUpperCase()}
           </div>
           {isOpen ? (
             <div className={styles.button__opener_open}></div>
@@ -52,13 +44,14 @@ const CurrencyFilterButton = ({
         </button>
         <div className={styles.item__list__container}>
           {isOpen &&
-            currenciesArray.map((currencyItem) => (
-              <CurrencyFilterItem
-                key={currencyItem.id}
-                currency={currencyItem.currency.toUpperCase()}
-                onClick={onClick}
-              />
-            ))}
+            essencesStoreContext.essencesStore.currenciesArray.map(
+              (currencyItem) => (
+                <CurrencyFilterItem
+                  key={currencyItem.id}
+                  currency={currencyItem.currency.toUpperCase()}
+                />
+              )
+            )}
         </div>
       </div>
     </div>
@@ -67,4 +60,4 @@ const CurrencyFilterButton = ({
   );
 };
 
-export default CurrencyFilterButton;
+export default observer(CurrencyFilterButton);

@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useState, useContext } from "react";
 
 import styles from "@components/Header/Input/Input.module.scss";
-import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import {
   createSearchParams,
@@ -9,64 +8,59 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-import { GlobalStoreContext } from "../../../App";
+import { EssencesStoreContext, OpenStoreContext } from "../../../App";
 
 type InputData = {
   show: () => void;
-  setIsInputSearchOpen: () => void;
-  isInputSearchOpen: boolean;
 };
 
-const Input = ({
-  show,
-  setIsInputSearchOpen,
-  isInputSearchOpen,
-}: InputData) => {
-  const globalStoreContext = useContext(GlobalStoreContext);
+const Input = ({ show }: InputData) => {
+  const essencesStoreContext = useContext(EssencesStoreContext);
+  const openStoreContext = useContext(OpenStoreContext);
   const [searchParams] = useSearchParams();
+  const search = searchParams.get("search");
+  let essencesValue = essencesStoreContext.essencesStore.value;
   const navigate = useNavigate();
   const [isInputOpen, setIsInputOpen] = useState(false);
   function handleOnClick() {
     setIsInputOpen(false);
     show();
-    setIsInputSearchOpen();
-    globalStoreContext.globalStore.setValue("");
+    openStoreContext.openStore.changeIsInputSearchOpen();
+    essencesStoreContext.essencesStore.setValue("");
   }
   function handleCancelOnClick() {
     show();
-    setIsInputSearchOpen();
-    globalStoreContext.globalStore.setValue("");
-    globalStoreContext.globalStore.fetch();
+    openStoreContext.openStore.setSearch("");
+    openStoreContext.openStore.dropInputSearch();
+    openStoreContext.openStore.setSearch(search);
+    essencesStoreContext.essencesStore.setValue("");
   }
   function handleSetValue(event: ChangeEvent<HTMLInputElement>) {
-    globalStoreContext.globalStore.setValue(event.target.value);
+    essencesStoreContext.essencesStore.setValue(event.target.value);
   }
-  useEffect(
-    action(() => {
-      navigate({
-        pathname: "/",
-        search: createSearchParams({
-          search: globalStoreContext.globalStore.value,
-        }).toString(),
-      });
-    }),
-    [navigate, globalStoreContext.globalStore.value]
-  );
+  useEffect(() => {
+    navigate({
+      pathname: "/",
+      search: createSearchParams({
+        search: essencesValue,
+      }).toString(),
+    });
+  }, [navigate, essencesValue]);
   useEffect(() => {
     let search = searchParams.get("search");
     if (search) {
-      globalStoreContext.globalStore.setValue(search);
+      essencesStoreContext.essencesStore.setValue(search);
     }
-  }, [globalStoreContext.globalStore, searchParams]);
+  }, [searchParams, essencesStoreContext.essencesStore]);
   return (
     <div className={styles.input__container}>
-      {!isInputOpen && !isInputSearchOpen && (
+      {!isInputOpen && !openStoreContext.openStore.isInputSearchOpen && (
         <div className={styles.input_close} onClick={handleOnClick}></div>
       )}
-      {isInputSearchOpen && (
+      {openStoreContext.openStore.isInputSearchOpen && (
         <div className={styles.input_open__container}>
           <input
-            value={globalStoreContext.globalStore.value}
+            value={essencesStoreContext.essencesStore.value}
             onChange={handleSetValue}
             className={styles.input_open}
             placeholder="Search Cryptocurrency"

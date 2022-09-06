@@ -1,5 +1,4 @@
 import Star from "@img/Vector.svg";
-import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 import { CoinsData } from "src/types";
 
@@ -49,4 +48,4 @@ const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
   );
 };
 
-export default observer(CoinCardHeader);
+export default CoinCardHeader;

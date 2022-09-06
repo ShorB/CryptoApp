@@ -1,21 +1,19 @@
+import { useContext } from "react";
+
 import { Category } from "@components/CoinItemContainer/CoinItemContainer";
 import styles from "@components/Header/CoinMenu/CoinMenu.module.scss";
+import { observer } from "mobx-react-lite";
 
-type CoinMenuData = {
-  category: string;
-  changeCategory: (category: Category) => void;
-  isInputSearchOpen: boolean;
-};
+import { EssencesStoreContext, OpenStoreContext } from "../../../App";
 
-const CoinMenu = ({
-  category,
-  changeCategory,
-  isInputSearchOpen,
-}: CoinMenuData) => {
+const CoinMenu = () => {
+  const essencesStoreContext = useContext(EssencesStoreContext);
+  const openStoreContext = useContext(OpenStoreContext);
   let menuClassNamesAll = "menu__container__all_close";
   let menuClassNamesGainer = "menu__container__gainer_close";
   let menuClassNamesLoser = "menu__container__loser_close";
   let menuClassNamesFavourites = "menu__container__favourites_close";
+  let category = essencesStoreContext.essencesStore.currentCategory;
   if (category === Category.all) {
     menuClassNamesAll = "menu__container__all_open";
   }
@@ -28,10 +26,12 @@ const CoinMenu = ({
   if (category === Category.favourites) {
     menuClassNamesFavourites = "menu__container__favourites_open";
   }
-  return !isInputSearchOpen ? (
+  return !openStoreContext.openStore.isInputSearchOpen ? (
     <div className={styles.menu__container}>
       <div
-        onClick={() => changeCategory(Category.all)}
+        onClick={() =>
+          essencesStoreContext.essencesStore.changeCurrentCategory(Category.all)
+        }
         className={
           styles[menuClassNamesAll] + " " + styles.menu__container__all
         }
@@ -39,7 +39,11 @@ const CoinMenu = ({
         All
       </div>
       <div
-        onClick={() => changeCategory(Category.gainer)}
+        onClick={() =>
+          essencesStoreContext.essencesStore.changeCurrentCategory(
+            Category.gainer
+          )
+        }
         className={
           styles[menuClassNamesGainer] + " " + styles.menu__container__gainer
         }
@@ -47,7 +51,11 @@ const CoinMenu = ({
         Gainer
       </div>
       <div
-        onClick={() => changeCategory(Category.loser)}
+        onClick={() =>
+          essencesStoreContext.essencesStore.changeCurrentCategory(
+            Category.loser
+          )
+        }
         className={
           styles[menuClassNamesLoser] + " " + styles.menu__container__loser
         }
@@ -55,7 +63,11 @@ const CoinMenu = ({
         Loser
       </div>
       <div
-        onClick={() => changeCategory(Category.favourites)}
+        onClick={() =>
+          essencesStoreContext.essencesStore.changeCurrentCategory(
+            Category.favourites
+          )
+        }
         className={
           styles[menuClassNamesFavourites] +
           " " +
@@ -70,4 +82,4 @@ const CoinMenu = ({
   );
 };
 
-export default CoinMenu;
+export default observer(CoinMenu);

@@ -1,10 +1,9 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 
-import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
 
-import CoinCardApiStore from "../../store/local/CoinCardApiStore/CoinCardApiStore";
+import { EssencesStoreContext, GlobalApiStoreContext } from "../../App";
 import styles from "./CoinCard.module.scss";
 import CoinCardHeader from "./CoinCardHeader/CoinCardHeader";
 
@@ -14,15 +13,31 @@ type CoinCardData = {
 
 const CoinCard = ({ currency = "usd" }: CoinCardData) => {
   const location = useLocation();
-  const coinCardApiStore = useLocalStore(
-    () => new CoinCardApiStore(currency, location)
-  );
+  const essencesStoreContext = useContext(EssencesStoreContext);
+  const globalApiStoreContext = useContext(GlobalApiStoreContext);
+  let globalCoin = globalApiStoreContext.globalApiStore.coin;
   useEffect(() => {
-    coinCardApiStore.fetch();
-  }, [coinCardApiStore]);
-  return coinCardApiStore.coin ? (
+    globalApiStoreContext.globalApiStore.fetch(
+      "https://api.coingecko.com/api/v3/coins",
+      "getCoin",
+      "",
+      0,
+      "",
+      currency,
+      location
+    );
+  }, [
+    currency,
+    essencesStoreContext.essencesStore,
+    globalApiStoreContext.globalApiStore,
+    location,
+  ]);
+  useEffect(() => {
+    essencesStoreContext.essencesStore.setCoin(globalCoin);
+  }, [essencesStoreContext.essencesStore, globalCoin]);
+  return essencesStoreContext.essencesStore.coin ? (
     <div className={styles.coin__card__container}>
-      <CoinCardHeader coin={coinCardApiStore.coin} />
+      <CoinCardHeader coin={essencesStoreContext.essencesStore.coin} />
       <div className={styles.coin__card__graph__container}>
         <div className={styles.coin__card__graph}>красивый график</div>
       </div>
@@ -53,27 +68,32 @@ const CoinCard = ({ currency = "usd" }: CoinCardData) => {
         <div className={styles.coin__image__container}>
           <div
             className={styles.coin__image}
-            style={{ backgroundImage: `url(${coinCardApiStore.coin.image})` }}
+            style={{
+              backgroundImage: `url(${essencesStoreContext.essencesStore.coin.image})`,
+            }}
           ></div>
         </div>
         <div className={styles.coin__info__container}>
-          <div className={styles.coin__name}>{coinCardApiStore.coin.name}</div>
+          <div className={styles.coin__name}>
+            {essencesStoreContext.essencesStore.coin.name}
+          </div>
           <div className={styles.coin__symbol}>
-            {"00:00 " + coinCardApiStore.coin.symbol.toUpperCase()}
+            {"00:00 " +
+              essencesStoreContext.essencesStore.coin.symbol.toUpperCase()}
           </div>
         </div>
         <div className={styles.coin__graph}></div>
         <div className={styles.coin__price__container}>
           <div className={styles.coin__price}>
-            {coinCardApiStore.coin.curPrice}
+            {essencesStoreContext.essencesStore.coin.curPrice}
           </div>
-          {coinCardApiStore.coin.priceChange >= 0 ? (
+          {essencesStoreContext.essencesStore.coin.priceChange >= 0 ? (
             <div className={styles.coin__price__change_gainer}>
-              {"+" + coinCardApiStore.coin.priceChange + "%"}
+              {"+" + essencesStoreContext.essencesStore.coin.priceChange + "%"}
             </div>
           ) : (
             <div className={styles.coin__price__change_loser}>
-              {coinCardApiStore.coin.priceChange + "%"}
+              {essencesStoreContext.essencesStore.coin.priceChange + "%"}
             </div>
           )}
         </div>
