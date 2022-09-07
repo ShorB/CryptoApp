@@ -1,5 +1,11 @@
 @import "@variables/variables.scss";
 
+button {
+  padding: 0;
+  border: none;
+  color: inherit;
+}
+
 .coin__card__container {
     width: $app_width;
     height: $app_container_input_close;

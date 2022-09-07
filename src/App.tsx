@@ -1,10 +1,9 @@
-import { useEffect, createContext } from "react";
+import { createContext } from "react";
 
 import CoinCard from "@components/CoinCard/CoinCard";
 import PageList from "@components/PageList";
 import { useLocalStore } from "@utils/useLocalStore";
-import { observer } from "mobx-react-lite";
-import { Routes, Route, useSearchParams } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import EssencesStore from "./store/global/EssencesStore";
 import GlobalApiStore from "./store/global/GlobalApiStore";
@@ -23,47 +22,16 @@ export const OpenStoreContext = createContext({
 });
 
 function App() {
-  const [searchParams] = useSearchParams();
-  let search = searchParams.get("search");
   const globalApiStore = useLocalStore(() => new GlobalApiStore());
   const essencesStore = useLocalStore(() => new EssencesStore());
   const openStore = useLocalStore(() => new OpenStore());
-  const openStoreIsCancelClick = openStore.isCancelClick;
-  openStore.setSearch(search);
-  useEffect(() => {
-    if (!search && openStoreIsCancelClick) {
-      openStore.setInputSearch(false);
-      openStore.setIsCancelClick();
-    }
-  }, [search, openStore, openStoreIsCancelClick]);
-  let globalCurrenciesArray = globalApiStore.currenciesArray;
-  useEffect(() => {
-    globalApiStore.fetch(
-      "https://api.coingecko.com/api/v3/simple/supported_vs_currencies",
-      "getCurrencies",
-      "",
-      0,
-      "",
-      ""
-    );
-  }, [globalApiStore]);
-  useEffect(() => {
-    essencesStore.setCurrenciesArray(globalCurrenciesArray);
-  }, [essencesStore, globalCurrenciesArray]);
   return (
     <GlobalApiStoreContext.Provider value={{ globalApiStore }}>
       <EssencesStoreContext.Provider value={{ essencesStore }}>
         <OpenStoreContext.Provider value={{ openStore }}>
           <Routes>
             <Route path="/" element={<PageList />} />
-            <Route
-              path="/:id"
-              element={
-                <CoinCard
-                  currency={essencesStore.currentCurrency.toLowerCase()}
-                />
-              }
-            />
+            <Route path="/:id" element={<CoinCard />} />
           </Routes>
         </OpenStoreContext.Provider>
       </EssencesStoreContext.Provider>
@@ -71,4 +39,4 @@ function App() {
   );
 }
 
-export default observer(App);
+export default App;
