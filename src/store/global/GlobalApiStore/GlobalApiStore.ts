@@ -48,19 +48,7 @@ export default class GlobalApiStore {
         url: `https://api.coingecko.com/api/v3/coins${location.pathname}`,
       });
       runInAction(() => {
-        this._coin = {
-          id: result.data.id,
-          image: result.data.image.large,
-          name: result.data.name,
-          symbol: result.data.symbol,
-          curPrice: result.data.market_data.current_price[currency],
-          priceChange:
-            result.data.market_data.price_change_percentage_24h_in_currency[
-              currency
-            ],
-          priceChangeFlat:
-            result.data.market_data.price_change_24h_in_currency[currency],
-        };
+        this._coin = GlobalApiStore.normalizeLoadCoin(result, currency);
       });
     }
     if (requestType === "getCurrencies") {
@@ -71,10 +59,8 @@ export default class GlobalApiStore {
       });
       runInAction(() => {
         this._currenciesArray = result.data.map(
-          (raw: CurrenciesArrayItemData) => ({
-            id: result.data.indexOf(raw),
-            currency: raw,
-          })
+          (raw: CurrenciesArrayItemData) =>
+            GlobalApiStore.normalizeCurrencies(result, raw)
         );
       });
     }
@@ -84,15 +70,9 @@ export default class GlobalApiStore {
         url: `${url}?&page=${page}&per_page=10&vs_currency=${currency}${queryParams}`,
       });
       runInAction(() => {
-        this._coins = result.data.map((raw: RawData) => ({
-          id: raw.id,
-          image: raw.image,
-          name: raw.name,
-          symbol: raw.symbol,
-          curPrice: raw.current_price,
-          priceChange: raw.price_change_percentage_24h,
-          priceChangeFlat: raw.price_change_24h,
-        }));
+        this._coins = result.data.map((raw: RawData) =>
+          GlobalApiStore.normalizeLoadCoins(raw)
+        );
       });
     }
     if (requestType === "loadMoreCoins") {
@@ -101,15 +81,9 @@ export default class GlobalApiStore {
         url: `${url}?&page=${page}&per_page=10&vs_currency=${currency}${queryParams}`,
       });
       runInAction(() => {
-        let resultCoins = result.data.map((raw: RawData) => ({
-          id: raw.id,
-          image: raw.image,
-          name: raw.name,
-          symbol: raw.symbol,
-          curPrice: raw.current_price,
-          priceChange: raw.price_change_percentage_24h,
-          priceChangeFlat: raw.price_change_24h,
-        }));
+        let resultCoins = result.data.map((raw: RawData) =>
+          GlobalApiStore.normalizeLoadCoins(raw)
+        );
         this._coins = [...this._coins, ...resultCoins];
       });
     }
@@ -119,12 +93,9 @@ export default class GlobalApiStore {
         url: `${url}?query=${value}`,
       });
       runInAction(() => {
-        let resultSearchCoins = result.data.coins.map((raw: SearchData) => ({
-          id: raw.id,
-          image: raw.large,
-          name: raw.name,
-          symbol: raw.symbol,
-        }));
+        let resultSearchCoins = result.data.coins.map((raw: SearchData) =>
+          GlobalApiStore.normalizeSearchCoins(raw)
+        );
         this._coins = resultSearchCoins;
         if ((value = "")) {
           this.fetch(
@@ -150,5 +121,43 @@ export default class GlobalApiStore {
   }
   get coin() {
     return this._coin;
+  }
+  static normalizeLoadCoins(from: RawData): CoinsData {
+    return {
+      id: from.id,
+      image: from.image,
+      name: from.name,
+      symbol: from.symbol,
+      curPrice: from.current_price,
+      priceChange: from.price_change_percentage_24h,
+      priceChangeFlat: from.price_change_24h,
+    };
+  }
+  static normalizeSearchCoins(from: SearchData) {
+    return {
+      id: from.id,
+      image: from.large,
+      name: from.name,
+      symbol: from.symbol,
+    };
+  }
+  static normalizeLoadCoin(from: any, currency: string): CoinsData {
+    return {
+      id: from.data.id,
+      image: from.data.image.large,
+      name: from.data.name,
+      symbol: from.data.symbol,
+      curPrice: from.data.market_data.current_price[currency],
+      priceChange:
+        from.data.market_data.price_change_percentage_24h_in_currency[currency],
+      priceChangeFlat:
+        from.data.market_data.price_change_24h_in_currency[currency],
+    };
+  }
+  static normalizeCurrencies(result: any, from: CurrenciesArrayItemData) {
+    return {
+      id: result.data.indexOf(from),
+      currency: from,
+    };
   }
 }

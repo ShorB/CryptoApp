@@ -1,0 +1,44 @@
+@import "@variables/variables.scss";
+
+a {
+    text-decoration:none;
+}
+
+.coin-search__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color:$color_white;;
+    width: $coin_item_width;
+    height: $coin_item_height;
+    border-radius: $coin_item_border_radius;
+    margin: auto;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
+}
+
+.coin-image__container {
+    padding: 16px 12px 16px 16px;
+}
+
+.coin-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.coin-symbol {
+    @include font('Circular Std', normal, 450, 12px, 15px, $color_6C757D);
+    padding-right: 10px;
+}
+
+.coin-name {
+    @include font('Circular Std', normal, 450, 16px, 20px, $color_212529);
+}
+
+.coin-info__container {
+    width: $coin_info_container
+}

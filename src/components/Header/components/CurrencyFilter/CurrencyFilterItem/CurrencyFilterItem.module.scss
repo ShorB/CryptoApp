@@ -17,3 +17,9 @@
     vertical-align: middle;
     @include font('Circular Std', normal, 400, 12px, 14px, $color_6C757D);
 }
+
+button {
+    padding: 0;
+    border: none;
+    color: inherit;
+}

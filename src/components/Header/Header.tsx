@@ -1,27 +1,28 @@
 import { useContext, useState } from "react";
 
 import styles from "@components/Header/Header.module.scss";
+import { OpenStoreContext } from "@src/App";
 import { observer } from "mobx-react-lite";
 
-import { OpenStoreContext } from "../../App";
-import CoinMenu from "./CoinMenu/CoinMenu";
-import CurrencyFilterButton from "./CurrencyFilter/CurrencyFilterButton/CurrencyFilterButton";
-import Input from "./Input/Input";
+import CoinMenu from "./components/CoinMenu/CoinMenu";
+import CurrencyFilterButton from "./components/CurrencyFilter/CurrencyFilterButton/CurrencyFilterButton";
+import Input from "./components/Input/Input";
 
 const Header = () => {
-  const openStoreContext = useContext(OpenStoreContext);
+  const { openStore } = useContext(OpenStoreContext);
   const [isShow, setIsShow] = useState(true);
   let headerContainerClassNames = "header__container_close_input";
-  if (openStoreContext.openStore.isInputSearchOpen === true) {
+  if (openStore.isInputSearchOpen === true) {
     headerContainerClassNames = "header__container_open_input";
   }
   return (
     <div className={styles[headerContainerClassNames]}>
-      <Input show={() => setIsShow(!isShow)} />
-      {!openStoreContext.openStore.isInputSearchOpen && (
-        <CurrencyFilterButton />
-      )}
-      {!openStoreContext.openStore.isInputSearchOpen && <CoinMenu />}
+      <Input
+        show={() => setIsShow(!isShow)}
+        isInputSearchOpen={openStore.isInputSearchOpen}
+      />
+      {!openStore.isInputSearchOpen && <CurrencyFilterButton />}
+      {!openStore.isInputSearchOpen && <CoinMenu />}
     </div>
   );
 };

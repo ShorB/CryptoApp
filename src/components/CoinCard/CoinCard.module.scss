@@ -3,10 +3,10 @@
 button {
   padding: 0;
   border: none;
-  color: inherit;
+  background-color: #FFFFFF;
 }
 
-.coin__card__container {
+.coin-card {
     width: $app_width;
     height: $app_container_input_close;
     overflow-y: hidden;
@@ -95,7 +95,7 @@ button {
     }
 }
 
-.coin__card__graph__container {
+.coin-card__graph {
     position: relative;
     height: 328px;
     margin-top: 18px;
@@ -103,7 +103,7 @@ button {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
 }
 
-.coin__card__graph {
+.coin__card__graph_ {
     position: absolute;
     top: 50%;
     left: 50%;

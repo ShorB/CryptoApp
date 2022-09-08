@@ -20,20 +20,23 @@
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-bottom: 4px solid $color_6C757D;
+    margin-right: 6px;
 }
 
 .button__opener_close {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-top: 4px solid $color_6C757D;
+    margin-right: 6px;
 }
 
 .button__description {
     vertical-align: middle;
+    padding-left: 6px;
     @include font('Circular Std', normal, 450, 12px, 15px, $color_6C757D);
 }
 
-.filter__list__container {
+.filter__container {
     position: absolute;
     display: flex;
     justify-content: space-between;
@@ -43,17 +46,17 @@
     padding-right: 16px;
 }
 
-.filter__list__container_ {
+.filter__list__container {
     display: flex;
     flex-direction: column;
     width: $filter_button_width;
     border: 0.5px solid $color_DFE2E4;
     border-radius: 12px;
     background: $backgroung_color_default;
-    &open {
-        max-height: 134.4px;
+    &_open {
+        max-height: 117.4px;
     }
-    &close {
+    &_close {
         max-height: $filter_button_min_height;
     }
 }

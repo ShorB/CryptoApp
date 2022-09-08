@@ -1,12 +1,16 @@
 import { useState, useContext, useEffect } from "react";
 
 import CoinItem from "@components/CoinItemContainer/CoinItem/CoinItem";
+import {
+  EssencesStoreContext,
+  GlobalApiStoreContext,
+  OpenStoreContext,
+} from "@src/App";
 import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 import { Virtuoso } from "react-virtuoso";
 
-import { EssencesStoreContext, GlobalApiStoreContext } from "../../App";
-import styles from "./CoinItemContainer.module.scss";
+import CoinSearchItem from "./CoinSearchItem";
 
 export enum Category {
   all = "all",
@@ -16,17 +20,16 @@ export enum Category {
 }
 
 const CoinItemContainer = () => {
-  const globalApiStoreContext = useContext(GlobalApiStoreContext);
-  const essencesStoreContext = useContext(EssencesStoreContext);
+  const { globalApiStore } = useContext(GlobalApiStoreContext);
+  const { essencesStore } = useContext(EssencesStoreContext);
+  const { openStore } = useContext(OpenStoreContext);
   const [page, setPage] = useState(1);
-  let currentCurrency = essencesStoreContext.essencesStore.currentCurrency;
-
-  let essencesValue = essencesStoreContext.essencesStore.value;
-  let globalCoins = globalApiStoreContext.globalApiStore.coins;
-
+  let currentCurrency = essencesStore.currentCurrency;
+  let essencesValue = essencesStore.value;
+  let globalCoins = globalApiStore.coins;
   useEffect(() => {
     if (essencesValue) {
-      globalApiStoreContext.globalApiStore.fetch(
+      globalApiStore.fetch(
         "https://api.coingecko.com/api/v3/search",
         "searchCoins",
         "",
@@ -35,18 +38,13 @@ const CoinItemContainer = () => {
         currentCurrency
       );
     }
-  }, [
-    essencesValue,
-    currentCurrency,
-    essencesStoreContext.essencesStore,
-    globalApiStoreContext.globalApiStore,
-  ]);
+  }, [essencesValue, currentCurrency, essencesStore, globalApiStore]);
   useEffect(() => {
-    essencesStoreContext.essencesStore.setCoins(globalCoins);
-  }, [globalCoins, essencesStoreContext.essencesStore]);
+    essencesStore.setCoins(globalCoins);
+  }, [globalCoins, essencesStore]);
   const loadMore = () => {
     setPage(page + 1);
-    globalApiStoreContext.globalApiStore.fetch(
+    globalApiStore.fetch(
       "https://api.coingecko.com/api/v3/coins/markets",
       "loadMoreCoins",
       "",
@@ -54,170 +52,57 @@ const CoinItemContainer = () => {
       "",
       currentCurrency
     );
-    return essencesStoreContext.essencesStore.setCoins(globalCoins);
+    console.log("chf,jnfkj") //eslint-disable-line
+    return essencesStore.setCoins(globalCoins);
   };
-  const coinsAll = essencesStoreContext.essencesStore.coins;
-  const coinsGainer = essencesStoreContext.essencesStore.coins
-    .slice()
-    .sort((a, b) => b.priceChange - a.priceChange);
-  const coinsLoser = essencesStoreContext.essencesStore.coins
-    .slice()
-    .sort((a, b) => a.priceChange - b.priceChange);
-  const coinsFavourites = essencesStoreContext.essencesStore.coins;
-  if (essencesStoreContext.essencesStore.currentCategory === Category.all) {
-    return essencesStoreContext.essencesStore.value ? (
-      <Virtuoso
-        style={{ height: "60vh" }}
-        totalCount={essencesStoreContext.essencesStore.coins.length}
-        itemContent={(index) => {
-          return (
-            <div className={styles.coin__container}>
-              <>
-                {
-                  <NavLink
-                    key={coinsAll[index].id}
-                    to={"/" + coinsAll[index].id}
-                  >
-                    <CoinItem key={coinsAll[index].id} coin={coinsAll[index]} />
-                  </NavLink>
-                }
-              </>
-            </div>
-          );
-        }}
-      />
-    ) : (
-      <Virtuoso
-        style={{ height: "60vh" }}
-        totalCount={essencesStoreContext.essencesStore.coins.length}
-        endReached={loadMore}
-        itemContent={(index) => {
-          return (
-            <div className={styles.coin__container}>
-              <>
-                {
-                  <NavLink
-                    key={coinsAll[index].id}
-                    to={"/" + coinsAll[index].id}
-                  >
-                    <CoinItem key={coinsAll[index].id} coin={coinsAll[index]} />
-                  </NavLink>
-                }
-              </>
-            </div>
-          );
-        }}
-      />
-    );
-  }
-  if (essencesStoreContext.essencesStore.currentCategory === Category.gainer) {
-    return (
-      <Virtuoso
-        style={{ height: "60vh" }}
-        totalCount={essencesStoreContext.essencesStore.coins.length}
-        endReached={loadMore}
-        itemContent={(index) => {
-          return (
-            <div className={styles.coin__container}>
-              <>
-                {
-                  <NavLink
-                    key={coinsGainer[index].id}
-                    to={"/" + coinsGainer[index].id}
-                  >
-                    <CoinItem
-                      key={coinsGainer[index].id}
-                      coin={coinsGainer[index]}
-                    />
-                  </NavLink>
-                }
-              </>
-            </div>
-          );
-        }}
-      />
-    );
-  }
-  if (essencesStoreContext.essencesStore.currentCategory === Category.loser) {
-    return (
-      <Virtuoso
-        style={{ height: "60vh" }}
-        totalCount={essencesStoreContext.essencesStore.coins.length}
-        endReached={loadMore}
-        itemContent={(index) => {
-          return (
-            <div className={styles.coin__container}>
-              <>
-                {
-                  <NavLink
-                    key={coinsLoser[index].id}
-                    to={"/" + coinsLoser[index].id}
-                  >
-                    <CoinItem
-                      key={coinsLoser[index].id}
-                      coin={coinsLoser[index]}
-                    />
-                  </NavLink>
-                }
-              </>
-            </div>
-          );
-        }}
-      />
-    );
-  }
-  if (
-    essencesStoreContext.essencesStore.currentCategory === Category.favourites
-  ) {
-    return (
-      <Virtuoso
-        style={{ height: "60vh" }}
-        totalCount={coinsFavourites.length}
-        endReached={loadMore}
-        itemContent={(index) => {
-          return (
-            <div className={styles.coin__container}>
-              <>
-                {
-                  <NavLink
-                    key={coinsFavourites[index].id}
-                    to={"/" + coinsFavourites[index].id}
-                  >
-                    <CoinItem
-                      key={coinsFavourites[index].id}
-                      coin={coinsFavourites[index]}
-                    />
-                  </NavLink>
-                }
-              </>
-            </div>
-          );
-        }}
-      />
-    );
+  const coinsAll = essencesStore.coins;
+  const coinsGainer = essencesStore.coinsGainer;
+  const coinsLoser = essencesStore.coinsLoser;
+  const coinsFavourites = essencesStore.coins;
+  const essencesStoreValue = essencesStore.value;
+  const openStoreIsInputSearchOpen = openStore.isInputSearchOpen;
+  let currentCoinsSort = essencesStore.coins;
+  if (essencesStore.currentCategory === Category.all) {
+    currentCoinsSort = coinsAll;
+  } else if (essencesStore.currentCategory === Category.gainer) {
+    currentCoinsSort = coinsGainer;
+  } else if (essencesStore.currentCategory === Category.loser) {
+    currentCoinsSort = coinsLoser;
+  } else {
+    currentCoinsSort = coinsFavourites;
   }
   return (
     <Virtuoso
       style={{ height: "60vh" }}
-      totalCount={essencesStoreContext.essencesStore.coins.length}
-      endReached={loadMore}
+      totalCount={essencesStore.coins.length}
+      endReached={essencesStoreValue ? () => {} : loadMore}
       itemContent={(index) => {
         return (
-          <div className={styles.coin__container}>
-            <>
-              {
-                <NavLink
-                  key={essencesStoreContext.essencesStore.coins[index].id}
-                  to={"/" + essencesStoreContext.essencesStore.coins[index].id}
-                >
-                  <CoinItem
-                    key={essencesStoreContext.essencesStore.coins[index].id}
-                    coin={essencesStoreContext.essencesStore.coins[index]}
+          <>
+            {
+              <NavLink
+                key={currentCoinsSort[index].id}
+                to={"/" + currentCoinsSort[index].id}
+              >
+                {essencesStoreValue && openStoreIsInputSearchOpen ? (
+                  <CoinSearchItem
+                    key={currentCoinsSort[index].id}
+                    coin={currentCoinsSort[index]}
                   />
-                </NavLink>
-              }
-            </>
-          </div>
+                ) : !essencesStoreValue && openStoreIsInputSearchOpen ? (
+                  <CoinSearchItem
+                    key={currentCoinsSort[index].id}
+                    coin={currentCoinsSort[index]}
+                  />
+                ) : (
+                  <CoinItem
+                    key={currentCoinsSort[index].id}
+                    coin={currentCoinsSort[index]}
+                  />
+                )}
+              </NavLink>
+            }
+          </>
         );
       }}
     />

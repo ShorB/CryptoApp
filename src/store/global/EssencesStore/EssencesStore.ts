@@ -75,4 +75,10 @@ export default class EssencesStore {
   get value() {
     return this._value;
   }
+  get coinsGainer() {
+    return this._coins.slice().sort((a, b) => b.priceChange - a.priceChange);
+  }
+  get coinsLoser() {
+    return this._coins.slice().sort((a, b) => a.priceChange - b.priceChange);
+  }
 }

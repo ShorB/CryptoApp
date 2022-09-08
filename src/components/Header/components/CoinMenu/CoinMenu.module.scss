@@ -1,5 +1,11 @@
 @import "@variables/variables.scss";
 
+button {
+    padding: 0;
+    border: none;
+    background-color: #FFFFFF;
+}
+
 .menu__container {
     display: flex;
     position: absolute;
@@ -11,7 +17,7 @@
 .menu__container__all {
     text-align: center;
     vertical-align: middle;
-    height: 15px;
+    height: 18px;
     width: 50px;
     &_close {
         @include font('Circular Std', normal, 500, 14px, 18px, $color_6C757D);
@@ -25,7 +31,7 @@
 .menu__container__gainer {
     text-align: center;
     vertical-align: middle;
-    height: 15px;
+    height: 18px;
     width: 50px;
     margin-left: 17px;
     &_close {
@@ -40,7 +46,7 @@
 .menu__container__loser {
     text-align: center;
     vertical-align: middle;
-    height: 15px;
+    height: 18px;
     width: 50px;
     margin-left: 17px;
     &_close {
@@ -55,7 +61,7 @@
 .menu__container__favourites {
     text-align: center;
     vertical-align: middle;
-    height: 15px;
+    height: 18px;
     width: 70px;
     margin-left: 17px;
     &_close {
