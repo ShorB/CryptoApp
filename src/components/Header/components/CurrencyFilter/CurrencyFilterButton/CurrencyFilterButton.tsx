@@ -11,33 +11,33 @@ const CurrencyFilterButton = () => {
   const { openStore } = useContext(OpenStoreContext);
   const [isOpen, setIsOpen] = useState(false);
   return !openStore.isInputSearchOpen ? (
-    <div className={styles.filter__container}>
-      <div className={styles.coins__inscription}>Coins</div>
+    <div className={styles["filter-container"]}>
+      <div className={styles["filter-container__coins-inscription"]}>Coins</div>
       <div
         className={
-          styles[`filter__list__container_${isOpen ? `open` : `close`}`] +
+          styles[`filter-list_${isOpen ? `open` : `close`}`] +
           " " +
-          styles.filter__list__container
+          styles["filter-list"]
         }
       >
         <button
           onClick={() => setIsOpen(!isOpen)}
           className={
-            styles[`filter__button_${isOpen ? `open` : `close`}`] +
+            styles[`filter-button_${isOpen ? `open` : `close`}`] +
             " " +
-            styles.filter__button
+            styles["filter-button"]
           }
         >
-          <div className={styles.button__description}>
+          <div className={styles["filter-button__description"]}>
             Market- {essencesStore.currentCurrency.toUpperCase()}
           </div>
           {isOpen ? (
-            <div className={styles.button__opener_open}></div>
+            <div className={styles["filter-button__opener_open"]}></div>
           ) : (
-            <div className={styles.button__opener_close}></div>
+            <div className={styles["filter-button__opener_close"]}></div>
           )}
         </button>
-        <div className={styles.item__list__container}>
+        <div className={styles["item-list"]}>
           {isOpen &&
             essencesStore.currenciesArray.map((currencyItem) => (
               <CurrencyFilterItem

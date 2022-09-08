@@ -1,6 +1,6 @@
 @import "@variables/variables.scss";
 
-.coin__card__header__container {
+.header {
     display: flex;
     height: $coin_card_header_container_height;
     width: $app_width;
@@ -8,7 +8,7 @@
     margin-left: 21px;
 }
 
-.coin__card__image {
+.header__image {
     margin-left: 13px;
     width: 24px;
     height: 24px;
@@ -18,7 +18,7 @@
     background-repeat: no-repeat;
 }
 
-.coin__card__back {
+.header__back {
     width: 10px;
     height: 10px;
     border-top: 2.5px solid $color_212529;
@@ -26,36 +26,36 @@
     transform: rotate(-135deg);
 } 
 
-.coin__card__header__name {
+.name-container__name {
     @include font('Circular Std', normal, 450, 16px, 20px, $color_212529);
 }
 
-.coin__card__header__discription {
+.name-container__discription {
     @include font('Circular Std', normal, 450, 10px, 13px, $color_6C757D);
     margin-left: 4px;
     padding-top: 2px;
 }
 
-.coin__card__header__name__container {
+.name-container {
     display: flex;
     align-items: center;
     margin-left: 8px;
     margin-right: 12px;
 }
 
-.coin__card__price__container {
+.price-container {
     display: flex;
     height: 46px;
     margin-left: 16px;
     align-items: center;
 }
 
-.coin__card__price {
+.price-container__price {
     @include font('Circular Std', normal, 500, 24px, 30px, $color_212529);
     margin-right: 12px;
 }
 
-.coin__card__change_flat {
+.price-container__price-change-flat {
     &_loser {
         @include font('Circular Std', normal, 450, 16px, 20px, $color_red);
     }
@@ -64,7 +64,7 @@
     }
 }
 
-.coin__card__change {
+.price-container__price-change {
     &_loser {
         @include font('Circular Std', normal, 450, 16px, 20px, $color_red);
     }

@@ -57,18 +57,21 @@ const Input = ({ show, isInputSearchOpen }: InputData) => {
   return (
     <>
       {!isInputOpen && !isInputSearchOpen && (
-        <button className={styles.input_close} onClick={handleOnClick}></button>
+        <button
+          className={styles["input-container__close-input"]}
+          onClick={handleOnClick}
+        ></button>
       )}
       {isInputSearchOpen && (
-        <div className={styles.input_open__container}>
+        <div className={styles["input-container__open-input"]}>
           <input
             value={essencesStore.value}
             onChange={handleSetValue}
-            className={styles.input_open}
+            className={styles["input-container__open-input_open"]}
             placeholder="Search Cryptocurrency"
           ></input>
           <button
-            className={styles.input_open__cancel}
+            className={styles["input-container__cancel"]}
             onClick={handleCancelOnClick}
           >
             Cancel

@@ -41,9 +41,7 @@ const CoinItemList = () => {
     <div
       className={
         styles[
-          `coin__list__container_input_${
-            openStoreIsInputSearchOpen ? `open` : `close`
-          }`
+          `coin-list_input-${openStoreIsInputSearchOpen ? `open` : `close`}`
         ]
       }
     >

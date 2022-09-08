@@ -11,12 +11,12 @@ import Input from "./components/Input/Input";
 const Header = () => {
   const { openStore } = useContext(OpenStoreContext);
   const [isShow, setIsShow] = useState(true);
-  let headerContainerClassNames = "header__container_close_input";
-  if (openStore.isInputSearchOpen === true) {
-    headerContainerClassNames = "header__container_open_input";
-  }
   return (
-    <div className={styles[headerContainerClassNames]}>
+    <div
+      className={
+        styles[`header_input-${openStore.isInputSearchOpen ? `open` : `close`}`]
+      }
+    >
       <Input
         show={() => setIsShow(!isShow)}
         isInputSearchOpen={openStore.isInputSearchOpen}

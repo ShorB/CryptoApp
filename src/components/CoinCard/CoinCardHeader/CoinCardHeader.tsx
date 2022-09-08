@@ -11,29 +11,29 @@ type CoinCardHeaderData = {
 const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
   return (
     <div>
-      <div className={styles.coin__card__header__container}>
+      <div className={styles["header"]}>
         <NavLink to={"/"}>
-          <button className={styles.coin__card__back}></button>
+          <button className={styles["header__back"]}></button>
         </NavLink>
         <img
-          className={styles.coin__card__image}
+          className={styles["header__image"]}
           src={`${coin.image}`}
           alt={`${coin.symbol.toUpperCase()}`}
         ></img>
-        <div className={styles.coin__card__header__name__container}>
-          <div className={styles.coin__card__header__name}>{coin.name}</div>
-          <div className={styles.coin__card__header__discription}>
+        <div className={styles["name-container"]}>
+          <div className={styles["name-container__name"]}>{coin.name}</div>
+          <div className={styles["name-container__discription"]}>
             {"(" + coin.symbol.toUpperCase() + ")"}
           </div>
         </div>
         <img src={Star} alt="star"></img>
       </div>
-      <div className={styles.coin__card__price__container}>
-        <div className={styles.coin__card__price}>{coin!.curPrice}</div>
+      <div className={styles["price-container"]}>
+        <div className={styles["price-container__price"]}>{coin.curPrice}</div>
         <div
           className={
             styles[
-              `coin__card__change_flat_${
+              `price-container__price-change-flat_${
                 coin.priceChange >= 0 ? `gainer` : `loser`
               }`
             ]
@@ -46,7 +46,9 @@ const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
         <div
           className={
             styles[
-              `coin__card__change_${coin.priceChange >= 0 ? `gainer` : `loser`}`
+              `price-container__price-change_${
+                coin.priceChange >= 0 ? `gainer` : `loser`
+              }`
             ]
           }
         >

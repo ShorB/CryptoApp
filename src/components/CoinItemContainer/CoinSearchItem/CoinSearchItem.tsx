@@ -7,16 +7,16 @@ type CoinItemProps = {
 
 const CoinSearchItem = ({ coin }: CoinItemProps) => {
   return (
-    <div className={styles["coin-search__container"]}>
-      <div className={styles["coin-image__container"]}>
+    <div className={styles["coin"]}>
+      <div className={styles["image"]}>
         <img
-          className={styles["coin-image"]}
+          className={styles["image__content"]}
           src={`${coin.image}`}
           alt={`${coin.symbol}`}
         ></img>
       </div>
-      <div className={styles["coin-name"]}>{coin.name}</div>
-      <div className={styles["coin-symbol"]}>{coin.symbol.toUpperCase()}</div>
+      <div className={styles["coin__name"]}>{coin.name}</div>
+      <div className={styles["coin__symbol"]}>{coin.symbol.toUpperCase()}</div>
     </div>
   );
 };

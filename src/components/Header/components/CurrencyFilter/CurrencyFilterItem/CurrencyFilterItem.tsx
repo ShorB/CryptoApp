@@ -12,9 +12,9 @@ const CurrencyFilterItem = ({ currency }: CurrencyFilterItemData) => {
   return (
     <button
       onClick={() => essencesStore.changeCurrentCurrency(currency)}
-      className={styles.item__container}
+      className={styles["item"]}
     >
-      <div className={styles.item__description}>Market- {currency}</div>
+      <div className={styles["item__description"]}>Market- {currency}</div>
     </button>
   );
 };

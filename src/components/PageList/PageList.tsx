@@ -43,9 +43,7 @@ const PageList = () => {
     <div
       className={
         styles[
-          `page__list__container_input_${
-            openStore.isInputSearchOpen ? `open` : `close`
-          }`
+          `page-list_input-${openStore.isInputSearchOpen ? `open` : `close`}`
         ]
       }
     >

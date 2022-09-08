@@ -32,43 +32,43 @@ const CoinCard = () => {
     essencesStore.coin && (
       <div className={styles["coin-card"]}>
         <CoinCardHeader coin={essencesStore.coin} />
-        <div className={styles["coin-card__graph"]}>
-          <div className={styles.coin__card__graph}>красивый график</div>
+        <div className={styles["graph"]}>
+          <div className={styles["graph__content"]}>красивый график</div>
         </div>
-        <div className={styles.coin__card__time__container}>
+        <div className={styles["time-list"]}>
           {timeInterval.map((elem, index) => {
             return (
-              <button key={index} className={styles.coin__card__time__item}>
-                <div className={styles.coin__card__time__item__text}>
-                  {elem}
-                </div>
+              <button key={index} className={styles["item"]}>
+                <div className={styles["item__text"]}>{elem}</div>
               </button>
             );
           })}
         </div>
-        <div className={styles.coin__container}>
-          <div className={styles.coin__image__container}>
+        <div className={styles["coin"]}>
+          <div className={styles["image"]}>
             <img
-              className={styles.coin__image}
+              className={styles["image__content"]}
               src={`${essencesStore.coin.image}`}
               alt={`${essencesStore.coin.symbol.toUpperCase()}`}
             ></img>
           </div>
-          <div className={styles.coin__info__container}>
-            <div className={styles.coin__name}>{essencesStore.coin.name}</div>
-            <div className={styles.coin__symbol}>
+          <div className={styles["coin-info"]}>
+            <div className={styles["coin-info__name"]}>
+              {essencesStore.coin.name}
+            </div>
+            <div className={styles["coin-info__symbol"]}>
               {"00:00 " + essencesStore.coin.symbol.toUpperCase()}
             </div>
           </div>
-          <div className={styles.coin__graph}></div>
-          <div className={styles.coin__price__container}>
-            <div className={styles.coin__price}>
+          <div className={styles["coin-graph"]}></div>
+          <div className={styles["coin-price-container"]}>
+            <div className={styles["coin-price-container__price"]}>
               {essencesStore.coin.curPrice}
             </div>
             <div
               className={
                 styles[
-                  `coin__price__change_${
+                  `coin-price-container__price-change_${
                     essencesStore.coin.priceChange >= 0 ? `gainer` : `loser`
                   }`
                 ]
@@ -79,10 +79,8 @@ const CoinCard = () => {
             </div>
           </div>
         </div>
-        <div className={styles.coin__card__transaction__container}>
-          <div className={styles.coin__card__transaction__name}>
-            Transactions
-          </div>
+        <div className={styles["coin-transaction"]}>
+          <div className={styles["coin-transaction__name"]}>Transactions</div>
         </div>
       </div>
     )

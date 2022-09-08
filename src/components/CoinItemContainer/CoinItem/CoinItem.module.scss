@@ -4,7 +4,7 @@ a {
     text-decoration:none;
 }
 
-.coin__container {
+.coin {
     display: flex;
     align-items: center;
     background-color:$color_white;;
@@ -16,11 +16,11 @@ a {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
 }
 
-.coin__image__container {
+.image {
     padding: 16px 12px 16px 16px;
 }
 
-.coin__image {
+.image__content {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -29,33 +29,33 @@ a {
     background-repeat: no-repeat;
 }
 
-.coin__symbol {
+.coin-info__symbol {
     @include font('Circular Std', normal, 450, 12px, 15px, $color_6C757D);
 }
 
-.coin__name {
+.coin-info__name {
     @include font('Circular Std', normal, 450, 16px, 20px, $color_212529);
 }
 
-.coin__info__container {
+.coin-info {
     width: $coin_info_container
 }
 
-.coin__graph {
+.graph {
     font: inherit;
     width: 50px;
     height: 25px;
     color: black;
 }
 
-.coin__price {
+.coin-price__price {
     display: flex;
     justify-content: flex-end;
     text-align: center;
     @include font('Circular Std', normal, 450, 16px, 20px, $color_343A40);
 }
 
-.coin__price__container {
+.coin-price {
     display: flex;
     flex-direction: column;
     padding-left: 24px;
@@ -63,7 +63,7 @@ a {
     width: $coin_price_container_width;
 }
 
-.coin__price__change {
+.coin-price__change {
     display: flex;
     justify-content: flex-end;
     &_gainer {

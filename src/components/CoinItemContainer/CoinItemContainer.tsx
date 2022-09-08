@@ -52,7 +52,6 @@ const CoinItemContainer = () => {
       "",
       currentCurrency
     );
-    console.log("chf,jnfkj") //eslint-disable-line
     return essencesStore.setCoins(globalCoins);
   };
   const coinsAll = essencesStore.coins;

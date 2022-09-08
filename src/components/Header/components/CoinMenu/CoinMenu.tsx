@@ -10,17 +10,15 @@ const CoinMenu = () => {
   const { openStore } = useContext(OpenStoreContext);
   let category = essencesStore.currentCategory;
   return !openStore.isInputSearchOpen ? (
-    <div className={styles.menu__container}>
+    <div className={styles["menu"]}>
       {categoryList.map((elem, index) => (
         <button
           key={index}
           onClick={() => essencesStore.changeCurrentCategory(elem)}
           className={
-            styles[
-              `menu__container__${elem}_${category === elem ? "open" : "close"}`
-            ] +
+            styles[`menu__${elem}_${category === elem ? "open" : "close"}`] +
             " " +
-            styles[`menu__container__${elem}`]
+            styles[`menu__${elem}`]
           }
         >
           {`${elem[0].toUpperCase() + elem.slice(1)}`}
