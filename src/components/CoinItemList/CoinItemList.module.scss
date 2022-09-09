@@ -1,15 +1,11 @@
 @import "@variables/variables.scss";
 
-.coin__container {
-    position: relative;
-}
-
-.coin__list__container_input {
+.coin-list_input {
    &::-webkit-scrollbar {
      width: 0;
    }
 
-   &_close {
+   &-close {
         width: $app_width;
         position: absolute;
         margin: auto;
@@ -17,7 +13,7 @@
         background-color: $backgroung_color_default;
     }
 
-   &_open {
+   &-open {
         width: $app_width;
         position: absolute;
         margin: auto;

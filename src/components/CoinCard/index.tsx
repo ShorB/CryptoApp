@@ -1,1 +1,1 @@
-export { default } from "@components/CoinCard/CoinCard";
+export { default } from "./CoinCard";

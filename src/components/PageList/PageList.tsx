@@ -1,57 +1,56 @@
-import { Category } from "@components/CoinItemContainer/CoinItemContainer";
+import { useContext, useEffect } from "react";
+
 import CoinItemList from "@components/CoinItemList";
 import Header from "@components/Header";
 import styles from "@components/PageList/PageList.module.scss";
-import { CoinsData } from "src/types";
-import { CurrenciesArrayItemData } from "src/types";
+import {
+  EssencesStoreContext,
+  GlobalApiStoreContext,
+  OpenStoreContext,
+} from "@src/App";
+import { observer } from "mobx-react-lite";
+import { useSearchParams } from "react-router-dom";
 
-export type PageListData = {
-  onClick: (currency: string) => void;
-  currenciesArray: CurrenciesArrayItemData[];
-  currency: string;
-  category: Category;
-  changeCategory: (category: Category) => void;
-  setIsInputSearchOpen: () => void;
-  isInputSearchOpen: boolean;
-  setCoins: (coin: CoinsData[]) => void;
-  coins: CoinsData[];
-};
-
-const PageList = ({
-  onClick,
-  currenciesArray,
-  currency,
-  category,
-  changeCategory,
-  setIsInputSearchOpen,
-  isInputSearchOpen,
-  setCoins,
-  coins,
-}: PageListData) => {
-  let PageListContainerClassNames = "page__list__container_input_close";
-  if (isInputSearchOpen === true) {
-    PageListContainerClassNames = "page__list__container_input_open";
-  }
+const PageList = () => {
+  const { openStore } = useContext(OpenStoreContext);
+  const { globalApiStore } = useContext(GlobalApiStoreContext);
+  const { essencesStore } = useContext(EssencesStoreContext);
+  const [searchParams] = useSearchParams();
+  let search = searchParams.get("search");
+  const openStoreIsCancelClick = openStore.isCancelClick;
+  openStore.setSearch(search);
+  useEffect(() => {
+    if (!search && openStoreIsCancelClick) {
+      openStore.setInputSearch(false);
+      openStore.setIsCancelClick();
+    }
+  }, [search, openStore, openStoreIsCancelClick]);
+  let globalCurrenciesArray = globalApiStore.currenciesArray;
+  useEffect(() => {
+    globalApiStore.fetch(
+      "https://api.coingecko.com/api/v3/simple/supported_vs_currencies",
+      "getCurrencies",
+      "",
+      0,
+      "",
+      ""
+    );
+  }, [globalApiStore]);
+  useEffect(() => {
+    essencesStore.setCurrenciesArray(globalCurrenciesArray);
+  }, [essencesStore, globalCurrenciesArray]);
   return (
-    <div className={styles[PageListContainerClassNames]}>
-      <Header
-        onClick={onClick}
-        currenciesArray={currenciesArray}
-        currency={currency}
-        category={category}
-        changeCategory={changeCategory}
-        setIsInputSearchOpen={setIsInputSearchOpen}
-        isInputSearchOpen={isInputSearchOpen}
-      />
-      <CoinItemList
-        currency={currency}
-        setCoins={(coin: CoinsData[]) => setCoins(coin)}
-        isInputSearchOpen={isInputSearchOpen}
-        category={category}
-        coins={coins}
-      />
+    <div
+      className={
+        styles[
+          `page-list_input-${openStore.isInputSearchOpen ? `open` : `close`}`
+        ]
+      }
+    >
+      <Header />
+      <CoinItemList />
     </div>
   );
 };
 
-export default PageList;
+export default observer(PageList);

@@ -1,56 +1,53 @@
-import React, { useEffect } from "react";
+import { useEffect, useContext } from "react";
 
 import CoinItemContainer from "@components/CoinItemContainer/CoinItemContainer";
 import styles from "@components/CoinItemList/CoinItemList.module.scss";
-import axios from "axios";
-import { CoinsData, RawData } from "src/types";
+import {
+  EssencesStoreContext,
+  GlobalApiStoreContext,
+  OpenStoreContext,
+} from "@src/App";
+import { observer } from "mobx-react-lite";
 
-type CoinItemListData = {
-  setCoins: (coin: CoinsData[]) => void;
-  coins: CoinsData[];
-  category: string;
-  isInputSearchOpen: boolean;
-  currency: string;
-};
-
-const CoinItemList = ({
-  setCoins,
-  currency,
-  coins,
-  category,
-  isInputSearchOpen,
-}: CoinItemListData) => {
+const CoinItemList = () => {
+  const { globalApiStore } = useContext(GlobalApiStoreContext);
+  const { essencesStore } = useContext(EssencesStoreContext);
+  const { openStore } = useContext(OpenStoreContext);
+  let currentCurrency = essencesStore.currentCurrency;
+  let globalCoins = globalApiStore.coins;
+  let openStoreIsInputSearchOpen = openStore.isInputSearchOpen;
   useEffect(() => {
-    const fetch = async () => {
-      const result = await axios({
-        method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}`,
-      });
-      setCoins(
-        result.data.map((raw: RawData) => ({
-          id: raw.id,
-          image: raw.image,
-          name: raw.name,
-          symbol: raw.symbol,
-          curPrice: raw.current_price,
-          priceChange: raw.price_change_percentage_24h,
-          priceChangeFlat: raw.price_change_24h,
-        }))
+    if (!openStoreIsInputSearchOpen) {
+      essencesStore.changeCurrentCurrency(currentCurrency);
+      globalApiStore.fetch(
+        "https://api.coingecko.com/api/v3/coins/markets",
+        "getCoins",
+        "",
+        1,
+        "",
+        currentCurrency
       );
-    };
-    fetch();
-  }, [currency]);
-  let coinListClassNames = "coin__list__container_input_close";
-  if (isInputSearchOpen === true) {
-    coinListClassNames = "coin__list__container_input_open";
-  }
+    }
+  }, [
+    globalApiStore,
+    currentCurrency,
+    essencesStore,
+    openStoreIsInputSearchOpen,
+  ]);
+  useEffect(() => {
+    essencesStore.setCoins(globalCoins);
+  }, [globalCoins, essencesStore]);
   return (
-    <div className={styles.coin__container}>
-      <div className={styles[coinListClassNames]}>
-        <CoinItemContainer category={category} coins={coins} />
-      </div>
+    <div
+      className={
+        styles[
+          `coin-list_input-${openStoreIsInputSearchOpen ? `open` : `close`}`
+        ]
+      }
+    >
+      <CoinItemContainer />
     </div>
   );
 };
 
-export default CoinItemList;
+export default observer(CoinItemList);

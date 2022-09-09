@@ -7,41 +7,40 @@ type CoinItemProps = {
 
 const CoinItem = ({ coin }: CoinItemProps) => {
   return (
-    <div className={styles.coin__container}>
-      <div className={styles.coin__image__container}>
-        <div
-          className={styles.coin__image}
-          style={{ backgroundImage: `url(${coin.image})` }}
-        ></div>
+    <div className={styles["coin"]}>
+      <div className={styles["image"]}>
+        <img
+          className={styles["image__content"]}
+          src={`${coin.image}`}
+          alt={`${coin.symbol}`}
+        ></img>
       </div>
-      <div className={styles.coin__info__container}>
-        <div className={styles.coin__name}>{coin.name}</div>
-        <div className={styles.coin__symbol}>{coin.symbol.toUpperCase()}</div>
+      <div className={styles["coin-info"]}>
+        <div className={styles["coin-info__name"]}>{coin.name}</div>
+        <div className={styles["coin-info__symbol"]}>
+          {coin.symbol.toUpperCase()}
+        </div>
       </div>
-      <div className={styles.coin__graph}>график</div>
-      <div className={styles.coin__price__container}>
-        <div className={styles.coin__price}>{coin.curPrice}</div>
-        {coin.priceChange >= 0 ? (
+      <div className={styles["graph"]}></div>
+      <div className={styles["coin-price"]}>
+        <div className={styles["coin-price__price"]}>{coin.curPrice}</div>
+        {
           <div
             className={
-              styles.coin__price__change_gainer +
+              styles[
+                `coin-price__change_${
+                  coin.priceChange >= 0 ? `gainer` : `loser`
+                }`
+              ] +
               " " +
-              styles.coin__price__change
+              styles["coin-price__change"]
             }
           >
-            +{coin.priceChange.toFixed(2)}%
+            {`${coin.priceChange >= 0 ? "+" : ""}` +
+              coin.priceChange?.toFixed(2) +
+              "%"}
           </div>
-        ) : (
-          <div
-            className={
-              styles.coin__price__change_loser +
-              " " +
-              styles.coin__price__change
-            }
-          >
-            {coin.priceChange.toFixed(2)}%
-          </div>
-        )}
+        }
       </div>
     </div>
   );

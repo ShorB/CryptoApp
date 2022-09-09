@@ -9,7 +9,7 @@ html {
     font-family: 'Circular Std';
 }
 
-.page__list__container_input_close {
+.page-list_input-close {
     position: relative;
     width: $app_width;
     height: $app_container_input_close;
@@ -19,7 +19,7 @@ html {
     background-color: $backgroung_color_default;
 }
 
-.page__list__container_input_open {
+.page-list_input-open {
     position: relative;
     width: $app_width;
     height: $app_container_input_open;
@@ -29,10 +29,14 @@ html {
     background-color: $backgroung_color_default;
 }
 
-.page__list__container_input_close::-webkit-scrollbar {
+.page-list_input-close::-webkit-scrollbar {
     width: 0;
 }
 
-.page__list__container_input_open::-webkit-scrollbar {
+.page-list_input-open::-webkit-scrollbar {
+    width: 0;
+}
+
+::-webkit-scrollbar {
     width: 0;
 }

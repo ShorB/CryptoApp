@@ -1,61 +1,30 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-import { Category } from "@components/CoinItemContainer/CoinItemContainer";
 import styles from "@components/Header/Header.module.scss";
-import { CurrenciesArrayItemData } from "src/types";
+import { OpenStoreContext } from "@src/App";
+import { observer } from "mobx-react-lite";
 
-import CoinMenu from "./CoinMenu/CoinMenu";
-import CurrencyFilterButton from "./CurrencyFilter/CurrencyFilterButton/CurrencyFilterButton";
-import Input from "./Input/Input";
+import CoinMenu from "./components/CoinMenu/CoinMenu";
+import CurrencyFilterButton from "./components/CurrencyFilter/CurrencyFilterButton/CurrencyFilterButton";
+import Input from "./components/Input/Input";
 
-type HeaderData = {
-  onClick: (currency: string) => void;
-  currenciesArray: CurrenciesArrayItemData[];
-  currency: string;
-  category: Category;
-  changeCategory: (category: Category) => void;
-  setIsInputSearchOpen: () => void;
-  isInputSearchOpen: boolean;
-};
-
-const Header = ({
-  onClick,
-  currenciesArray,
-  currency,
-  category,
-  changeCategory,
-  setIsInputSearchOpen,
-  isInputSearchOpen,
-}: HeaderData) => {
+const Header = () => {
+  const { openStore } = useContext(OpenStoreContext);
   const [isShow, setIsShow] = useState(true);
-  let headerContainerClassNames = "header__container_close_input";
-  if (isInputSearchOpen === true) {
-    headerContainerClassNames = "header__container_open_input";
-  }
   return (
-    <div className={styles[headerContainerClassNames]}>
+    <div
+      className={
+        styles[`header_input-${openStore.isInputSearchOpen ? `open` : `close`}`]
+      }
+    >
       <Input
         show={() => setIsShow(!isShow)}
-        setIsInputSearchOpen={setIsInputSearchOpen}
-        isInputSearchOpen={isInputSearchOpen}
+        isInputSearchOpen={openStore.isInputSearchOpen}
       />
-      {!isInputSearchOpen && (
-        <CurrencyFilterButton
-          onClick={onClick}
-          currenciesArray={currenciesArray}
-          currency={currency}
-          isInputSearchOpen={isInputSearchOpen}
-        />
-      )}
-      {!isInputSearchOpen && (
-        <CoinMenu
-          changeCategory={changeCategory}
-          category={category}
-          isInputSearchOpen={isInputSearchOpen}
-        />
-      )}
+      {!openStore.isInputSearchOpen && <CurrencyFilterButton />}
+      {!openStore.isInputSearchOpen && <CoinMenu />}
     </div>
   );
 };
 
-export default Header;
+export default observer(Header);

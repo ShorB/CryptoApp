@@ -1,6 +1,6 @@
 @import "@variables/variables.scss";
 
-.item__container {
+.item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -16,4 +16,10 @@
     padding-left: 6px;
     vertical-align: middle;
     @include font('Circular Std', normal, 400, 12px, 14px, $color_6C757D);
+}
+
+button {
+    padding: 0;
+    border: none;
+    color: inherit;
 }
