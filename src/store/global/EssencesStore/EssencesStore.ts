@@ -37,6 +37,7 @@ export default class EssencesStore {
       coin: computed,
       setValue: action,
       value: computed,
+      currentCoinsSort: computed,
     });
   }
   changeCurrentCurrency(currency: string) {
@@ -75,10 +76,15 @@ export default class EssencesStore {
   get value() {
     return this._value;
   }
-  get coinsGainer() {
-    return this._coins.slice().sort((a, b) => b.priceChange - a.priceChange);
-  }
-  get coinsLoser() {
-    return this._coins.slice().sort((a, b) => a.priceChange - b.priceChange);
+  get currentCoinsSort() {
+    if (this._currentCategory === Category.all) {
+      return this._coins;
+    } else if (this._currentCategory === Category.gainer) {
+      return this._coins.slice().sort((a, b) => b.priceChange - a.priceChange);
+    } else if (this._currentCategory === Category.loser) {
+      return this._coins.slice().sort((a, b) => a.priceChange - b.priceChange);
+    } else {
+      return this._coins;
+    }
   }
 }

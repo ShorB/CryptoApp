@@ -45,7 +45,7 @@ export default class GlobalApiStore {
     if (requestType === "getCoin") {
       const result = await axios({
         method: "get",
-        url: `https://api.coingecko.com/api/v3/coins${location.pathname}`,
+        url: `${url}${location.pathname}`,
       });
       runInAction(() => {
         this._coin = GlobalApiStore.normalizeLoadCoin(result, currency);

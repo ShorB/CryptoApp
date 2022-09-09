@@ -54,22 +54,9 @@ const CoinItemContainer = () => {
     );
     return essencesStore.setCoins(globalCoins);
   };
-  const coinsAll = essencesStore.coins;
-  const coinsGainer = essencesStore.coinsGainer;
-  const coinsLoser = essencesStore.coinsLoser;
-  const coinsFavourites = essencesStore.coins;
   const essencesStoreValue = essencesStore.value;
   const openStoreIsInputSearchOpen = openStore.isInputSearchOpen;
-  let currentCoinsSort = essencesStore.coins;
-  if (essencesStore.currentCategory === Category.all) {
-    currentCoinsSort = coinsAll;
-  } else if (essencesStore.currentCategory === Category.gainer) {
-    currentCoinsSort = coinsGainer;
-  } else if (essencesStore.currentCategory === Category.loser) {
-    currentCoinsSort = coinsLoser;
-  } else {
-    currentCoinsSort = coinsFavourites;
-  }
+  let currentCoinsSort = essencesStore.currentCoinsSort;
   return (
     <Virtuoso
       style={{ height: "60vh" }}

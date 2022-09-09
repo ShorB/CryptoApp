@@ -1,7 +1,8 @@
 import { useContext } from "react";
 
-import styles from "@components/Header/components/CurrencyFilter/CurrencyFilterItem/CurrencyFilterItem.module.scss";
 import { EssencesStoreContext } from "@src/App";
+
+import styles from "./CurrencyFilterItem.module.scss";
 
 type CurrencyFilterItemData = {
   currency: string;
