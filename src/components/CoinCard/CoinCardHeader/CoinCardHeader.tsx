@@ -1,4 +1,4 @@
-import Star from "@img/Vector.svg";
+import Star from "img/Vector.svg";
 import { NavLink } from "react-router-dom";
 import { CoinsData } from "src/types";
 

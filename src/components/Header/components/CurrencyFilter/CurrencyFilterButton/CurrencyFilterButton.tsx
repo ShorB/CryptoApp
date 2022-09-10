@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 
-import { EssencesStoreContext, OpenStoreContext } from "@src/App";
 import { observer } from "mobx-react-lite";
+import { EssencesStoreContext, OpenStoreContext } from "src/App";
 
 import CurrencyFilterItem from "../CurrencyFilterItem/CurrencyFilterItem";
 import styles from "./CurrencyFilterButton.module.scss";

@@ -1,1 +1,1 @@
-export { default } from "@components/Header/components/CoinMenu/CoinMenu";
+export { default } from "./CoinMenu";

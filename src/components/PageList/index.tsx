@@ -1,1 +1,1 @@
-export { default } from "@components/PageList/PageList";
+export { default } from "components/PageList/PageList";

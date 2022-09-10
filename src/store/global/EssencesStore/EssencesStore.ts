@@ -1,4 +1,4 @@
-import { Category } from "@components/CoinItemContainer/CoinItemContainer";
+import { Category } from "components/CoinItemContainer/CoinItemContainer";
 import { action, computed, makeObservable, observable } from "mobx";
 import { CoinsData, CurrenciesArrayItemData } from "src/types";
 

@@ -1,14 +1,14 @@
 import { useState, useContext, useEffect } from "react";
 
-import CoinItem from "@components/CoinItemContainer/CoinItem/CoinItem";
+import CoinItem from "components/CoinItemContainer/CoinItem/CoinItem";
+import { observer } from "mobx-react-lite";
+import { NavLink } from "react-router-dom";
+import { Virtuoso } from "react-virtuoso";
 import {
   EssencesStoreContext,
   GlobalApiStoreContext,
   OpenStoreContext,
-} from "@src/App";
-import { observer } from "mobx-react-lite";
-import { NavLink } from "react-router-dom";
-import { Virtuoso } from "react-virtuoso";
+} from "src/App";
 
 import CoinSearchItem from "./CoinSearchItem";
 

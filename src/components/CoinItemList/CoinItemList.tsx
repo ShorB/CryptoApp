@@ -1,13 +1,13 @@
 import { useEffect, useContext } from "react";
 
-import CoinItemContainer from "@components/CoinItemContainer/CoinItemContainer";
-import styles from "@components/CoinItemList/CoinItemList.module.scss";
+import CoinItemContainer from "components/CoinItemContainer/CoinItemContainer";
+import styles from "components/CoinItemList/CoinItemList.module.scss";
+import { observer } from "mobx-react-lite";
 import {
   EssencesStoreContext,
   GlobalApiStoreContext,
   OpenStoreContext,
-} from "@src/App";
-import { observer } from "mobx-react-lite";
+} from "src/App";
 
 const CoinItemList = () => {
   const { globalApiStore } = useContext(GlobalApiStoreContext);

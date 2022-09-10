@@ -1,4 +1,4 @@
-import styles from "@components/CoinItemContainer/CoinSearchItem/CoinSearchItem.module.scss";
+import styles from "components/CoinItemContainer/CoinSearchItem/CoinSearchItem.module.scss";
 import { CoinsData } from "src/types";
 
 type CoinItemProps = {
