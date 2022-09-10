@@ -24,6 +24,12 @@
       "last 1 safari version"
     ]
   },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
     "@babel/core": "^7.19.0",
@@ -42,18 +48,26 @@
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "autoprefixer": "^10.4.8",
     "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.5",
     "babel-preset-mobx": "^2.0.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-webpack-plugin": "^3.2.0",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
+    "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.1",
     "postcss-loader": "^7.0.1",
     "prettier": "^2.7.1",
-    "react-dom": "^18.2.0",
-    "react-refresh": "^0.14.0",
+    "react-router-dom": "^6.3.0",
+    "react-virtuoso": "^2.17.2",
+    "regenerator-runtime": "^0.13.9",
+    "sass": "^1.54.9",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
     "typescript": "^4.8.3",
@@ -64,15 +78,10 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "babel-loader": "^8.2.5",
-    "html-webpack-plugin": "^5.5.0",
     "mobx": "^6.6.1",
     "mobx-react-lite": "^3.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.3.0",
-    "react-virtuoso": "^2.17.2",
-    "regenerator-runtime": "^0.13.9",
-    "sass": "^1.54.9"
+    "react-refresh": "^0.14.0"
   }
 }

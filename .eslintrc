@@ -6,7 +6,10 @@
     ],
     "plugins": [
       "prettier",
-      "import"
+      "import",
+      "eslint-plugin-import",
+      "react",
+      "eslint-plugin-jsx-a11y"
     ],
     "parser": "@babel/eslint-parser",
     "rules": {
