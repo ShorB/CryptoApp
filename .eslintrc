@@ -1,10 +1,19 @@
 {
     "extends": [
-      "react-app",
+      "plugin:react/recommended",
+      "plugin:react/jsx-runtime",
       "plugin:prettier/recommended"
     ],
-    "plugins": ["prettier"],
+    "plugins": [
+      "prettier",
+      "import",
+      "eslint-plugin-import",
+      "react",
+      "eslint-plugin-jsx-a11y"
+    ],
+    "parser": "@babel/eslint-parser",
     "rules": {
+      "react/react-in-jsx-scope": "off",
       "no-console": "error",
       "prettier/prettier": [
         "error",

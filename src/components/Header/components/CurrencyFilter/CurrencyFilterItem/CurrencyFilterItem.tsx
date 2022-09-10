@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { EssencesStoreContext } from "@src/App";
+import { EssencesStoreContext } from "src/App";
 
 import styles from "./CurrencyFilterItem.module.scss";
 

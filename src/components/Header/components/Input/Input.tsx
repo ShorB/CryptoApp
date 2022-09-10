@@ -1,13 +1,13 @@
 import { ChangeEvent, useEffect, useState, useContext } from "react";
 
-import styles from "@components/Header/components/Input/Input.module.scss";
-import { EssencesStoreContext, OpenStoreContext } from "@src/App";
+import styles from "components/Header/components/Input/Input.module.scss";
 import { observer } from "mobx-react-lite";
 import {
   createSearchParams,
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
+import { EssencesStoreContext, OpenStoreContext } from "src/App";
 
 type InputData = {
   show: () => void;

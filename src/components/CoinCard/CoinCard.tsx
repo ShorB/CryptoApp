@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
 
-import { timeInterval } from "@config/Constants";
-import { EssencesStoreContext, GlobalApiStoreContext } from "@src/App";
+import { timeInterval } from "config/Constants";
 import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
+import { EssencesStoreContext, GlobalApiStoreContext } from "src/App";
 
 import styles from "./CoinCard.module.scss";
 import CoinCardHeader from "./CoinCardHeader/CoinCardHeader";

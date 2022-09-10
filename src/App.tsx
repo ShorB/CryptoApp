@@ -1,9 +1,9 @@
 import { createContext } from "react";
 
-import CoinCard from "@components/CoinCard/CoinCard";
-import PageList from "@components/PageList";
-import { useLocalStore } from "@utils/useLocalStore";
+import CoinCard from "components/CoinCard/CoinCard";
+import PageList from "components/PageList/PageList";
 import { Routes, Route } from "react-router-dom";
+import { useLocalStore } from "utils/useLocalStore";
 
 import EssencesStore from "./store/global/EssencesStore";
 import GlobalApiStore from "./store/global/GlobalApiStore";

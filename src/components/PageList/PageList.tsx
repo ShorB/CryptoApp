@@ -1,15 +1,15 @@
 import { useContext, useEffect } from "react";
 
-import CoinItemList from "@components/CoinItemList";
-import Header from "@components/Header";
-import styles from "@components/PageList/PageList.module.scss";
+import CoinItemList from "components/CoinItemList";
+import Header from "components/Header";
+import styles from "components/PageList/PageList.module.scss";
+import { observer } from "mobx-react-lite";
+import { useSearchParams } from "react-router-dom";
 import {
   EssencesStoreContext,
   GlobalApiStoreContext,
   OpenStoreContext,
-} from "@src/App";
-import { observer } from "mobx-react-lite";
-import { useSearchParams } from "react-router-dom";
+} from "src/App";
 
 const PageList = () => {
   const { openStore } = useContext(OpenStoreContext);
