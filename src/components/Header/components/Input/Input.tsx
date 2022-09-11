@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState, useContext } from "react";
 
 import styles from "components/Header/components/Input/Input.module.scss";
+import Glass from "img/Glass.svg";
 import { observer } from "mobx-react-lite";
 import {
   createSearchParams,
@@ -57,10 +58,18 @@ const Input = ({ show, isInputSearchOpen }: InputData) => {
   return (
     <>
       {!isInputOpen && !isInputSearchOpen && (
-        <button
-          className={styles["input-container__close-input"]}
-          onClick={handleOnClick}
-        ></button>
+        // <button
+        //   className={styles["input-container__close-input"]}
+        //   onClick={handleOnClick}
+        // ></button>
+        <div className={styles["input-container__close-input"]}>
+          <img
+            className={styles["input__close-input"]}
+            onClick={handleOnClick}
+            src={Glass}
+            alt="glass"
+          ></img>
+        </div>
       )}
       {isInputSearchOpen && (
         <div className={styles["input-container__open-input"]}>

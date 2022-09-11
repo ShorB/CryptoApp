@@ -6,9 +6,10 @@ import styles from "./CurrencyFilterItem.module.scss";
 
 type CurrencyFilterItemData = {
   currency: string;
+  index: number;
 };
 
-const CurrencyFilterItem = ({ currency }: CurrencyFilterItemData) => {
+const CurrencyFilterItem = ({ currency, index }: CurrencyFilterItemData) => {
   const { essencesStore } = useContext(EssencesStoreContext);
   return (
     <button

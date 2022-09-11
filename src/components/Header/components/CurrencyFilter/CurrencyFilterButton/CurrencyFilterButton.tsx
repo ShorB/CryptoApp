@@ -39,10 +39,11 @@ const CurrencyFilterButton = () => {
         </button>
         <div className={styles["item-list"]}>
           {isOpen &&
-            essencesStore.currenciesArray.map((currencyItem) => (
+            essencesStore.currenciesArray.map((currencyItem, index) => (
               <CurrencyFilterItem
                 key={currencyItem.id}
                 currency={currencyItem.currency.toUpperCase()}
+                index={index}
               />
             ))}
         </div>

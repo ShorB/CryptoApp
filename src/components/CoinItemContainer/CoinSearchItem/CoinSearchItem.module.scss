@@ -17,6 +17,20 @@ a {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
 }
 
+.coin:hover {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color:$color_white;;
+    width: $coin_item_width;
+    height: $coin_item_height;
+    border-radius: $coin_item_border_radius;
+    margin: auto;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px $color_blue;
+    transition-duration: 0.3s;
+}
+
 .image {
     padding: 16px 12px 16px 16px;
 }

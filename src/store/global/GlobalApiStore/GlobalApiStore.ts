@@ -15,19 +15,26 @@ type SearchData = {
   symbol: string;
 };
 
-type PrivateFields = "_currenciesArray" | "_coins" | "_currency" | "_coin";
+export type ChartData = {
+  time: number;
+  price: number;
+}
+
+type PrivateFields = "_currenciesArray" | "_coins" | "_currency" | "_coin" | "_chartData";
 
 export default class GlobalApiStore {
   private _currenciesArray: CurrenciesArrayItemData[] = [];
   private _coins: CoinsData[] = [];
   private _currency: string = "usd";
   private _coin: CoinsData | null = null;
+  private _chartData: ChartData[] | null = null;
   constructor() {
     makeObservable<GlobalApiStore, PrivateFields>(this, {
       _currenciesArray: observable.ref,
       _coins: observable.ref,
       _currency: observable,
       _coin: observable.ref,
+      _chartData: observable.ref,
       fetch: action,
       currenciesArray: computed,
       coins: computed,
@@ -40,7 +47,9 @@ export default class GlobalApiStore {
     page: number = 1,
     value: string,
     currency: string,
-    location?: any
+    location?: any,
+    days?: number,
+    interval?: string
   ) => {
     if (requestType === "getCoin") {
       const result = await axios({
@@ -109,6 +118,20 @@ export default class GlobalApiStore {
         }
       });
     }
+    if (requestType === "getChart") {
+      const result = await axios({
+        method: "get",
+        url: `${url}${location.pathname}/market_chart?days=${days}&interval=${interval}&vs_currency=${currency}&query=${value}`,
+      });
+      runInAction(() => {
+        this._chartData = result.data.prices.map((raw: any) => {
+          return {
+            time: raw["0"],
+            price: raw["1"],
+          }
+        })
+      })
+    }
   };
   get currenciesArray() {
     return this._currenciesArray;
@@ -121,6 +144,9 @@ export default class GlobalApiStore {
   }
   get coin() {
     return this._coin;
+  }
+  get chartData() {
+    return this._chartData;
   }
   static normalizeLoadCoins(from: RawData): CoinsData {
     return {

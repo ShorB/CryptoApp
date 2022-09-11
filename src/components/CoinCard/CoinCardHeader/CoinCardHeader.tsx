@@ -1,3 +1,4 @@
+import Back from "img/Back.svg";
 import Star from "img/Vector.svg";
 import { NavLink } from "react-router-dom";
 import { CoinsData } from "src/types";
@@ -13,7 +14,13 @@ const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
     <div>
       <div className={styles["header"]}>
         <NavLink to={"/"}>
-          <button className={styles["header__back"]}></button>
+          <div className={styles["header__back-container"]}>
+            <img
+              className={styles["header__back-img"]}
+              src={Back}
+              alt="back"
+            ></img>
+          </div>
         </NavLink>
         <img
           className={styles["header__image"]}

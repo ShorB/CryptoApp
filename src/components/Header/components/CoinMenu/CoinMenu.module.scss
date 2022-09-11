@@ -19,8 +19,12 @@ button {
     vertical-align: middle;
     height: 18px;
     width: 50px;
+    cursor: pointer;
     &_close {
         @include font('Circular Std', normal, 500, 14px, 18px, $color_6C757D);
+    }
+    &_close:hover {
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_blue);
     }
     &_open {
         border-bottom: 3px solid $color_blue;
@@ -34,8 +38,12 @@ button {
     height: 18px;
     width: 50px;
     margin-left: 17px;
+    cursor: pointer;
     &_close {
         @include font('Circular Std', normal, 500, 14px, 18px, $color_6C757D);
+    }
+    &_close:hover {
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_blue);
     }
     &_open {
         border-bottom: 3px solid $color_blue;
@@ -49,8 +57,12 @@ button {
     height: 18px;
     width: 50px;
     margin-left: 17px;
+    cursor: pointer;
     &_close {
         @include font('Circular Std', normal, 500, 14px, 18px, $color_6C757D);
+    }
+    &_close:hover {
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_blue);
     }
     &_open {
         border-bottom: 3px solid $color_blue;
@@ -64,8 +76,12 @@ button {
     height: 18px;
     width: 70px;
     margin-left: 17px;
+    cursor: pointer;
     &_close {
         @include font('Circular Std', normal, 500, 14px, 18px, $color_6C757D);
+    }
+    &_close:hover {
+        @include font('Circular Std', normal, 500, 14px, 18px, $color_blue);
     }
     &_open {
         border-bottom: 3px solid $color_blue;

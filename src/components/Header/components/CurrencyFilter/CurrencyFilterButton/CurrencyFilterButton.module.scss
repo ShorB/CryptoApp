@@ -8,11 +8,22 @@
     min-height: $filter_button_min_height;
     background: $backgroung_color_default;
     border: 0.5px solid $color_DFE2E4;
+    cursor: pointer;
     &_close {
         border-radius: 12px;
     }
+    &_close:hover {
+        border-radius: 12px;
+        background-color: #ECF4FF;
+        transition-duration: 0.1s;
+    }
     &_open {
         border-radius: 12px 12px 0px 0px;
+    }
+    &_open:hover {
+        border-radius: 12px 12px 0px 0px;
+        background-color: #ECF4FF;
+        transition-duration: 0.1s;
     }
 }
 

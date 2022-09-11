@@ -10,6 +10,21 @@
     background: $backgroung_color_default;
     border: 0.5px solid $color_DFE2E4;
     padding: 1px 1px 1px 0px;
+    cursor: pointer;
+}
+
+.item:hover {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: $filter_button_item_width;
+    max-width: $filter_button_item_max_height;
+    min-height: $filter_button_min_height;
+    background-color: #ECF4FF;
+    border: 0.5px solid $color_DFE2E4;
+    padding: 1px 1px 1px 0px;
+    cursor: pointer;
+    transition-duration: 0.2s;
 }
 
 .item__description {
