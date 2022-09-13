@@ -36,7 +36,7 @@ const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
         <img src={Star} alt="star"></img>
       </div>
       <div className={styles["price-container"]}>
-        <div className={styles["price-container__price"]}>{coin.curPrice}</div>
+        <div className={styles["price-container__price"]}>{coin?.curPrice}</div>
         <div
           className={
             styles[
@@ -47,8 +47,8 @@ const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
           }
         >
           {coin.priceChangeFlat >= 0
-            ? "+" + coin.priceChangeFlat.toFixed(3)
-            : coin.priceChangeFlat.toFixed(3)}
+            ? "+" + coin.priceChangeFlat?.toFixed(3)
+            : coin.priceChangeFlat?.toFixed(3)}
         </div>
         <div
           className={
@@ -59,7 +59,7 @@ const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
             ]
           }
         >
-          {"(" + coin.priceChange.toFixed(2) + "%)"}
+          {"(" + coin.priceChange?.toFixed(2) + "%)"}
         </div>
       </div>
     </div>

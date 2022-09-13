@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 
 import CoinItem from "components/CoinItemContainer/CoinItem/CoinItem";
+import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 import { Virtuoso } from "react-virtuoso";
@@ -24,25 +25,33 @@ const CoinItemContainer = () => {
   const { essencesStore } = useContext(EssencesStoreContext);
   const { openStore } = useContext(OpenStoreContext);
   const [page, setPage] = useState(1);
-  let currentCurrency = essencesStore.currentCurrency;
-  let essencesValue = essencesStore.value;
-  let globalCoins = globalApiStore.coins;
-  useEffect(() => {
-    if (essencesValue) {
-      globalApiStore.fetch(
-        "https://api.coingecko.com/api/v3/search",
-        "searchCoins",
-        "",
-        0,
-        essencesValue,
-        currentCurrency
-      );
-    }
-  }, [essencesValue, currentCurrency, essencesStore, globalApiStore]);
-  useEffect(() => {
-    essencesStore.setCoins(globalCoins);
-  }, [globalCoins, essencesStore]);
-  const loadMore = () => {
+  useEffect(
+    action(() => {
+      if (essencesStore.value) {
+        globalApiStore.fetch(
+          "https://api.coingecko.com/api/v3/search",
+          "searchCoins",
+          "",
+          0,
+          essencesStore.value,
+          essencesStore.currentCurrency
+        );
+      }
+    }),
+    [
+      essencesStore.value,
+      essencesStore.currentCurrency,
+      essencesStore,
+      globalApiStore,
+    ]
+  );
+  useEffect(
+    action(() => {
+      essencesStore.setCoins(globalApiStore.coins);
+    }),
+    [globalApiStore.coins, essencesStore]
+  );
+  const loadMore = action(() => {
     setPage(page + 1);
     globalApiStore.fetch(
       "https://api.coingecko.com/api/v3/coins/markets",
@@ -50,47 +59,44 @@ const CoinItemContainer = () => {
       "",
       page + 1,
       "",
-      currentCurrency
+      essencesStore.currentCurrency
     );
-    return essencesStore.setCoins(globalCoins);
-  };
-  const essencesStoreValue = essencesStore.value;
-  const openStoreIsInputSearchOpen = openStore.isInputSearchOpen;
-  let currentCoinsSort = essencesStore.currentCoinsSort;
+    return essencesStore.setCoins(globalApiStore.coins);
+  });
   return (
     <Virtuoso
       style={{ height: "60vh" }}
       totalCount={essencesStore.coins.length}
-      endReached={essencesStoreValue ? () => {} : loadMore}
-      itemContent={(index) => {
+      endReached={essencesStore.value ? () => {} : loadMore}
+      itemContent={action((index) => {
         return (
           <>
             {
               <NavLink
-                key={currentCoinsSort[index].id}
-                to={"/" + currentCoinsSort[index].id}
+                key={essencesStore.currentCoinsSort[index]?.id}
+                to={"/" + essencesStore.currentCoinsSort[index]?.id}
               >
-                {essencesStoreValue && openStoreIsInputSearchOpen ? (
+                {essencesStore.value && openStore.isInputSearchOpen ? (
                   <CoinSearchItem
-                    key={currentCoinsSort[index].id}
-                    coin={currentCoinsSort[index]}
+                    key={essencesStore.currentCoinsSort[index]?.id}
+                    coin={essencesStore.currentCoinsSort[index]}
                   />
-                ) : !essencesStoreValue && openStoreIsInputSearchOpen ? (
+                ) : !essencesStore.value && openStore.isInputSearchOpen ? (
                   <CoinSearchItem
-                    key={currentCoinsSort[index].id}
-                    coin={currentCoinsSort[index]}
+                    key={essencesStore.currentCoinsSort[index]?.id}
+                    coin={essencesStore.currentCoinsSort[index]}
                   />
                 ) : (
                   <CoinItem
-                    key={currentCoinsSort[index].id}
-                    coin={currentCoinsSort[index]}
+                    key={essencesStore.currentCoinsSort[index]?.id}
+                    coin={essencesStore.currentCoinsSort[index]}
                   />
                 )}
               </NavLink>
             }
           </>
         );
-      }}
+      })}
     />
   );
 };

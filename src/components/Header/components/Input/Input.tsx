@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState, useContext } from "react";
 
 import styles from "components/Header/components/Input/Input.module.scss";
 import Glass from "img/Glass.svg";
+import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import {
   createSearchParams,
@@ -20,8 +21,6 @@ const Input = ({ show, isInputSearchOpen }: InputData) => {
   const { openStore } = useContext(OpenStoreContext);
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
-  let essencesValue = essencesStore.value;
-  let openStoreSetIsCancelClick = () => openStore.setIsCancelClick();
   const navigate = useNavigate();
   const [isInputOpen, setIsInputOpen] = useState(false);
   function handleOnClick() {
@@ -35,20 +34,23 @@ const Input = ({ show, isInputSearchOpen }: InputData) => {
     openStore.setSearch("");
     openStore.dropInputSearch();
     openStore.setSearch(search);
-    openStoreSetIsCancelClick();
+    openStore.setIsCancelClick();
     essencesStore.setValue("");
   }
   function handleSetValue(event: ChangeEvent<HTMLInputElement>) {
     essencesStore.setValue(event.target.value);
   }
-  useEffect(() => {
-    navigate({
-      pathname: "/",
-      search: createSearchParams({
-        search: essencesValue,
-      }).toString(),
-    });
-  }, [navigate, essencesValue]);
+  useEffect(
+    action(() => {
+      navigate({
+        pathname: "/",
+        search: createSearchParams({
+          search: essencesStore.value,
+        }).toString(),
+      });
+    }),
+    [navigate, essencesStore.value]
+  );
   useEffect(() => {
     let search = searchParams.get("search");
     if (search) {
@@ -58,10 +60,6 @@ const Input = ({ show, isInputSearchOpen }: InputData) => {
   return (
     <>
       {!isInputOpen && !isInputSearchOpen && (
-        // <button
-        //   className={styles["input-container__close-input"]}
-        //   onClick={handleOnClick}
-        // ></button>
         <div className={styles["input-container__close-input"]}>
           <img
             className={styles["input__close-input"]}

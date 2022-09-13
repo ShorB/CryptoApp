@@ -1,7 +1,8 @@
 import { useContext, useEffect, useRef } from "react";
 
 import { EChart } from "@hcorta/react-echarts";
-import { timeInterval } from "config/Constants";
+import { timeInterval, timeIntervalMap } from "config/Constants";
+import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
 import { EssencesStoreContext, GlobalApiStoreContext } from "src/App";
@@ -13,83 +14,61 @@ const CoinCard = () => {
   const location = useLocation();
   const { essencesStore } = useContext(EssencesStoreContext);
   const { globalApiStore } = useContext(GlobalApiStoreContext);
-  let globalCoin = globalApiStore.coin;
-  let globalChartData = globalApiStore.chartData;
-  let essencesCurrentCurrency = essencesStore.currentCurrency.toLowerCase();
-  let essencesDays = essencesStore.days;
-  let essencesInterval = essencesStore.interval;
-  useEffect(() => {
-    globalApiStore.fetch(
-      "https://api.coingecko.com/api/v3/coins",
-      "getCoin",
-      "",
-      0,
-      "",
-      essencesCurrentCurrency,
-      location
-    );
-  }, [essencesCurrentCurrency, globalApiStore, location]);
-  useEffect(() => {
-    globalApiStore.fetch(
-      "https://api.coingecko.com/api/v3/coins",
-      "getChart",
-      "",
-      0,
-      "",
-      essencesCurrentCurrency,
+  useEffect(
+    action(() => {
+      globalApiStore.fetch(
+        "https://api.coingecko.com/api/v3/coins",
+        "getCoin",
+        "",
+        0,
+        "",
+        essencesStore.currentCurrency.toLowerCase(),
+        location
+      );
+    }),
+    [essencesStore.currentCurrency.toLowerCase(), globalApiStore, location]
+  );
+  useEffect(
+    action(() => {
+      globalApiStore.fetch(
+        "https://api.coingecko.com/api/v3/coins",
+        "getChart",
+        "",
+        0,
+        "",
+        essencesStore.currentCurrency.toLowerCase(),
+        location,
+        essencesStore.days,
+        essencesStore.interval
+      );
+    }),
+    [
+      essencesStore.currentCurrency.toLowerCase(),
+      globalApiStore,
       location,
-      essencesDays,
-      essencesInterval
-    );
-  }, [
-    essencesCurrentCurrency,
-    globalApiStore,
-    location,
-    essencesDays,
-    essencesInterval,
-  ]);
-  useEffect(() => {
-    essencesStore.setCoin(globalCoin);
-  }, [essencesStore, globalCoin]);
-  useEffect(() => {
-    essencesStore.setChartData(globalChartData);
-  }, [essencesStore, globalChartData]);
-  let setDays = (days: number) => essencesStore.setDays(days);
-  let setInterval = (interval: string) => essencesStore.setInterval(interval);
-  let setCurrentChartInterval = (interval: string) =>
-    essencesStore.setCurrentChartInterval(interval);
+      essencesStore.days,
+      essencesStore.interval,
+    ]
+  );
+  useEffect(
+    action(() => {
+      essencesStore.setCoin(globalApiStore.coin);
+    }),
+    [essencesStore, globalApiStore.coin]
+  );
+  useEffect(
+    action(() => {
+      essencesStore.setChartData(globalApiStore.chartData);
+    }),
+    [essencesStore, globalApiStore.chartData]
+  );
   function handleOnClick(elem: any) {
     let item = elem.target.innerText;
-    if (item === "24 H") {
-      setInterval("hourly");
-      setDays(1);
-      setCurrentChartInterval("24 H");
-    }
-    if (item === "1 W") {
-      setInterval("daily");
-      setDays(7);
-      setCurrentChartInterval("1 W");
-    }
-    if (item === "1 M") {
-      setInterval("daily");
-      setDays(30);
-      setCurrentChartInterval("1 M");
-    }
-    if (item === "6 M") {
-      setInterval("mounthly");
-      setDays(183);
-      setCurrentChartInterval("6 M");
-    }
-    if (item === "1 Y") {
-      setInterval("mounthly");
-      setDays(366);
-      setCurrentChartInterval("1 Y");
-    }
-    if (item === "All") {
-      setInterval("yearly");
-      setDays(100500);
-      setCurrentChartInterval("All");
-    }
+    essencesStore.setInterval(timeIntervalMap.get(item).setInterval);
+    essencesStore.setDays(timeIntervalMap.get(item).setDays);
+    essencesStore.setCurrentChartInterval(
+      timeIntervalMap.get(item).setCurrentChartInterval
+    );
   }
   return (
     essencesStore.coin && (

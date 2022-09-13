@@ -1,6 +1,9 @@
 import { Category } from "components/CoinItemContainer/CoinItemContainer";
 import { action, computed, makeObservable, observable } from "mobx";
+import { AUTOACTION_BOUND } from "mobx/dist/internal";
 import { CoinsData, CurrenciesArrayItemData } from "src/types";
+import { getDate } from "utils/getDate";
+
 import { ChartData } from "../GlobalApiStore/GlobalApiStore";
 
 type PrivateFields =
@@ -20,7 +23,7 @@ export default class EssencesStore {
   private _currenciesArray: CurrenciesArrayItemData[] = [];
   private _coin: CoinsData | null = null;
   private _value: string = "";
-  private _chartData: ChartData[] | null = null;
+  private _chartData: ChartData[] = [];
   private _currentChartInterval: string = "24 H";
   _interval: string = "hourly";
   _days: number = 1;
@@ -100,64 +103,29 @@ export default class EssencesStore {
   get chartData() {
     return this._chartData;
   }
-  setChartData(chartData: ChartData[] | null) {
+  setChartData(chartData: ChartData[]) {
     this._chartData = chartData;
   }
   get chartDataTime() {
-    let timeArray: string[] = [];
-    if (this.interval === "hourly") {
-      this._chartData?.map((elem: any) => {
-        let date = new Date(elem.time);
-        let hours = date.getHours();
-        let minutes = "0" + date.getMinutes();
-        let formattedTime = hours + ":" + minutes.slice(-2)
-        timeArray.push(formattedTime);
-      })
-    }
-    if (this.interval === "daily") {
-      this._chartData?.map((elem: any) => {
-        let date = new Date(elem.time);
-        let year = " " + date.getFullYear();
-        let day = date.getDate().toString().padStart(2, "0");
-        let mounth = (date.getMonth() + 1).toString().padStart(2, "0");
-        let formattedTime = day + "." + mounth + "." + year.slice(3)
-        timeArray.push(formattedTime);
-      })
-    }
-    if (this.interval === "mounthly") {
-      this._chartData?.map((elem: any) => {
-        let date = new Date(elem.time);
-        let year = " " + date.getFullYear();
-        let day = date.getDate().toString().padStart(2, "0");
-        let mounth = (date.getMonth() + 1).toString().padStart(2, "0");
-        let formattedTime = day + "." + mounth + "." + year.slice(3)
-        timeArray.push(formattedTime);
-      })
-    }
-    if (this.interval === "yearly") {
-      this._chartData?.map((elem: any) => {
-        let date = new Date(elem.time);
-        let year = " " + date.getFullYear();
-        let day = date.getDate().toString().padStart(2, "0");
-        let mounth = (date.getMonth() + 1).toString().padStart(2, "0");
-        let formattedTime = day + "." + mounth + "." + year.slice(3)
-        timeArray.push(formattedTime);
-      })
-    }
+    let timeArray: string[] = getDate(this._chartData, this.interval);
     if (timeArray.length < 9) {
-      return timeArray
+      return timeArray;
     }
-    return timeArray.filter((elem, index) => (index + 1) % (Math.floor(timeArray.length / 6)) === 1);
+    return timeArray.filter(
+      (elem, index) => (index + 1) % Math.floor(timeArray.length / 6) === 1
+    );
   }
   get chartDataPrice() {
     let priceArray: number[] = [];
     this._chartData?.map((elem: any) => {
-      priceArray.push(elem.price.toFixed(0))
-    })
+      priceArray.push(elem.price?.toFixed(0));
+    });
     if (priceArray.length < 9) {
-      return priceArray
+      return priceArray;
     }
-    return priceArray.filter((elem, index) => (index + 1) % (Math.floor(priceArray.length / 6)) === 1);
+    return priceArray.filter(
+      (elem, index) => (index + 1) % Math.floor(priceArray.length / 6) === 1
+    );
   }
   get currentCoinsSort() {
     if (this._currentCategory === Category.all) {

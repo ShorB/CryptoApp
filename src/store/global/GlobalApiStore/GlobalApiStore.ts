@@ -18,16 +18,21 @@ type SearchData = {
 export type ChartData = {
   time: number;
   price: number;
-}
+};
 
-type PrivateFields = "_currenciesArray" | "_coins" | "_currency" | "_coin" | "_chartData";
+type PrivateFields =
+  | "_currenciesArray"
+  | "_coins"
+  | "_currency"
+  | "_coin"
+  | "_chartData";
 
 export default class GlobalApiStore {
   private _currenciesArray: CurrenciesArrayItemData[] = [];
   private _coins: CoinsData[] = [];
   private _currency: string = "usd";
   private _coin: CoinsData | null = null;
-  private _chartData: ChartData[] | null = null;
+  private _chartData: ChartData[] = [];
   constructor() {
     makeObservable<GlobalApiStore, PrivateFields>(this, {
       _currenciesArray: observable.ref,
@@ -128,9 +133,9 @@ export default class GlobalApiStore {
           return {
             time: raw["0"],
             price: raw["1"],
-          }
-        })
-      })
+          };
+        });
+      });
     }
   };
   get currenciesArray() {

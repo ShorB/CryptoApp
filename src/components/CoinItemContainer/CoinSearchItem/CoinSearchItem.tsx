@@ -11,12 +11,12 @@ const CoinSearchItem = ({ coin }: CoinItemProps) => {
       <div className={styles["image"]}>
         <img
           className={styles["image__content"]}
-          src={`${coin.image}`}
-          alt={`${coin.symbol}`}
+          src={`${coin?.image}`}
+          alt={`${coin?.symbol}`}
         ></img>
       </div>
-      <div className={styles["coin__name"]}>{coin.name}</div>
-      <div className={styles["coin__symbol"]}>{coin.symbol.toUpperCase()}</div>
+      <div className={styles["coin__name"]}>{coin?.name}</div>
+      <div className={styles["coin__symbol"]}>{coin?.symbol.toUpperCase()}</div>
     </div>
   );
 };

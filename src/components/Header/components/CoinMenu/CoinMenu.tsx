@@ -8,7 +8,6 @@ import { EssencesStoreContext, OpenStoreContext } from "src/App";
 const CoinMenu = () => {
   const { essencesStore } = useContext(EssencesStoreContext);
   const { openStore } = useContext(OpenStoreContext);
-  let category = essencesStore.currentCategory;
   return !openStore.isInputSearchOpen ? (
     <div className={styles["menu"]}>
       {categoryList.map((elem, index) => (
@@ -16,7 +15,11 @@ const CoinMenu = () => {
           key={index}
           onClick={() => essencesStore.changeCurrentCategory(elem)}
           className={
-            styles[`menu__${elem}_${category === elem ? "open" : "close"}`] +
+            styles[
+              `menu__${elem}_${
+                essencesStore.currentCategory === elem ? "open" : "close"
+              }`
+            ] +
             " " +
             styles[`menu__${elem}`]
           }
