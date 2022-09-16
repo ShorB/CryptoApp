@@ -1,3 +1,4 @@
+import Back from "img/Back.svg";
 import Star from "img/Vector.svg";
 import { NavLink } from "react-router-dom";
 import { CoinsData } from "src/types";
@@ -13,7 +14,13 @@ const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
     <div>
       <div className={styles["header"]}>
         <NavLink to={"/"}>
-          <button className={styles["header__back"]}></button>
+          <div className={styles["header__back-container"]}>
+            <img
+              className={styles["header__back-img"]}
+              src={Back}
+              alt="back"
+            ></img>
+          </div>
         </NavLink>
         <img
           className={styles["header__image"]}
@@ -29,7 +36,7 @@ const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
         <img src={Star} alt="star"></img>
       </div>
       <div className={styles["price-container"]}>
-        <div className={styles["price-container__price"]}>{coin.curPrice}</div>
+        <div className={styles["price-container__price"]}>{coin?.curPrice}</div>
         <div
           className={
             styles[
@@ -40,8 +47,8 @@ const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
           }
         >
           {coin.priceChangeFlat >= 0
-            ? "+" + coin.priceChangeFlat.toFixed(3)
-            : coin.priceChangeFlat.toFixed(3)}
+            ? "+" + coin.priceChangeFlat?.toFixed(3)
+            : coin.priceChangeFlat?.toFixed(3)}
         </div>
         <div
           className={
@@ -52,7 +59,7 @@ const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
             ]
           }
         >
-          {"(" + coin.priceChange.toFixed(2) + "%)"}
+          {"(" + coin.priceChange?.toFixed(2) + "%)"}
         </div>
       </div>
     </div>

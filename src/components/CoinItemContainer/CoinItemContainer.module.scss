@@ -1,1 +1,8 @@
 @import "variables/variables.scss";
+
+.empty-list {
+   @include font('Circular Std', normal, 450, 16px, 15px, $color_black);
+   position: absolute;
+   left: 50%;
+   transform: translate(-50%);
+}

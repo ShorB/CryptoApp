@@ -3,6 +3,7 @@ import { useContext, useEffect } from "react";
 import CoinItemList from "components/CoinItemList";
 import Header from "components/Header";
 import styles from "components/PageList/PageList.module.scss";
+import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useSearchParams } from "react-router-dom";
 import {
@@ -17,14 +18,16 @@ const PageList = () => {
   const { essencesStore } = useContext(EssencesStoreContext);
   const [searchParams] = useSearchParams();
   let search = searchParams.get("search");
-  const openStoreIsCancelClick = openStore.isCancelClick;
-  openStore.setSearch(search);
-  useEffect(() => {
-    if (!search && openStoreIsCancelClick) {
-      openStore.setInputSearch(false);
-      openStore.setIsCancelClick();
-    }
-  }, [search, openStore, openStoreIsCancelClick]);
+  openStore.setSearch(searchParams.get("search"));
+  useEffect(
+    action(() => {
+      if (!search && openStore.isCancelClick) {
+        openStore.setInputSearch(false);
+        openStore.setIsCancelClick();
+      }
+    }),
+    [search, openStore, openStore.isCancelClick]
+  );
   let globalCurrenciesArray = globalApiStore.currenciesArray;
   useEffect(() => {
     globalApiStore.fetch(

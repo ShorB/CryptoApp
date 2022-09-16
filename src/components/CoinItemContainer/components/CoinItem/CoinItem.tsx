@@ -1,5 +1,6 @@
-import styles from "components/CoinItemContainer/CoinItem/CoinItem.module.scss";
 import { CoinsData } from "src/types";
+
+import styles from "./CoinItem.module.scss";
 
 type CoinItemProps = {
   coin: CoinsData;

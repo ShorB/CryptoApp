@@ -1,6 +1,10 @@
 import { Category } from "components/CoinItemContainer/CoinItemContainer";
 import { action, computed, makeObservable, observable } from "mobx";
+import { AUTOACTION_BOUND } from "mobx/dist/internal";
 import { CoinsData, CurrenciesArrayItemData } from "src/types";
+import { getDate } from "utils/getDate";
+
+import { ChartData } from "../GlobalApiStore/GlobalApiStore";
 
 type PrivateFields =
   | "_currentCurrency"
@@ -8,7 +12,9 @@ type PrivateFields =
   | "_coins"
   | "_currenciesArray"
   | "_coin"
-  | "_value";
+  | "_value"
+  | "_chartData"
+  | "_currentChartInterval";
 
 export default class EssencesStore {
   private _coins: CoinsData[] = [];
@@ -17,6 +23,10 @@ export default class EssencesStore {
   private _currenciesArray: CurrenciesArrayItemData[] = [];
   private _coin: CoinsData | null = null;
   private _value: string = "";
+  private _chartData: ChartData[] = [];
+  private _currentChartInterval: string = "24 H";
+  _interval: string = "hourly";
+  _days: number = 1;
   constructor() {
     makeObservable<EssencesStore, PrivateFields>(this, {
       _currentCurrency: observable,
@@ -25,6 +35,8 @@ export default class EssencesStore {
       _currenciesArray: observable.ref,
       _coin: observable.ref,
       _value: observable,
+      _chartData: observable.ref,
+      _currentChartInterval: observable.ref,
       changeCurrentCurrency: action,
       currentCurrency: computed,
       changeCurrentCategory: action,
@@ -38,6 +50,18 @@ export default class EssencesStore {
       setValue: action,
       value: computed,
       currentCoinsSort: computed,
+      chartData: computed,
+      setChartData: action,
+      chartDataTime: computed,
+      chartDataPrice: computed,
+      setInterval: action,
+      setDays: action,
+      days: computed,
+      interval: computed,
+      _days: observable,
+      _interval: observable,
+      currentChartInterval: computed,
+      setCurrentChartInterval: action,
     });
   }
   changeCurrentCurrency(currency: string) {
@@ -76,6 +100,33 @@ export default class EssencesStore {
   get value() {
     return this._value;
   }
+  get chartData() {
+    return this._chartData;
+  }
+  setChartData(chartData: ChartData[]) {
+    this._chartData = chartData;
+  }
+  get chartDataTime() {
+    let timeArray: string[] = getDate(this._chartData, this.interval);
+    if (timeArray.length < 9) {
+      return timeArray;
+    }
+    return timeArray.filter(
+      (elem, index) => (index + 1) % Math.floor(timeArray.length / 6) === 1
+    );
+  }
+  get chartDataPrice() {
+    let priceArray: number[] = [];
+    this._chartData?.map((elem: any) => {
+      priceArray.push(elem.price?.toFixed(0));
+    });
+    if (priceArray.length < 9) {
+      return priceArray;
+    }
+    return priceArray.filter(
+      (elem, index) => (index + 1) % Math.floor(priceArray.length / 6) === 1
+    );
+  }
   get currentCoinsSort() {
     if (this._currentCategory === Category.all) {
       return this._coins;
@@ -86,5 +137,23 @@ export default class EssencesStore {
     } else {
       return this._coins;
     }
+  }
+  setInterval(interval: string) {
+    this._interval = interval;
+  }
+  setDays(days: number) {
+    this._days = days;
+  }
+  get days() {
+    return this._days;
+  }
+  get interval() {
+    return this._interval;
+  }
+  get currentChartInterval() {
+    return this._currentChartInterval;
+  }
+  setCurrentChartInterval(interval: string) {
+    this._currentChartInterval = interval;
   }
 }

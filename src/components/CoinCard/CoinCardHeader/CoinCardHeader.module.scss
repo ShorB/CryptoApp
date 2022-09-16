@@ -9,7 +9,7 @@
 }
 
 .header__image {
-    margin-left: 13px;
+    margin-left: 7px;
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -18,12 +18,26 @@
     background-repeat: no-repeat;
 }
 
-.header__back {
-    width: 10px;
-    height: 10px;
-    border-top: 2.5px solid $color_212529;
-    border-right: 2.5px solid $color_212529;
-    transform: rotate(-135deg);
+.header__back-container {
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+
+.header__back-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.header__back-img:hover {
+    position: absolute;
+    width: 75%;
+    height: 75%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 } 
 
 .name-container__name {

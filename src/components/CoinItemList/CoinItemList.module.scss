@@ -11,13 +11,16 @@
         margin: auto;
         top: $coin_container_margin_close;
         background-color: $backgroung_color_default;
+        position: relative;
     }
 
    &-open {
         width: $app_width;
+        height: 502.5px;
         position: absolute;
         margin: auto;
         top: $coin_container_margin_open;
         background-color: $backgroung_color_default;
+        position: relative;
    }
 }
