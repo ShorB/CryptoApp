@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect, useRef, MouseEvent } from "react";
 
 import { observer } from "mobx-react-lite";
 import { EssencesStoreContext, OpenStoreContext } from "src/App";
@@ -10,10 +10,29 @@ const CurrencyFilterButton = () => {
   const { essencesStore } = useContext(EssencesStoreContext);
   const { openStore } = useContext(OpenStoreContext);
   const [isOpen, setIsOpen] = useState(false);
+  //console.log("внешний", isOpen)//eslint-disable-line
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      if (
+        isOpen &&
+        ref.current &&
+        !ref.current.contains(event.target as HTMLElement)
+      ) {
+        setIsOpen(false);
+      }
+      //console.log("сработало")//eslint-disable-line
+    }
+    document.body.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
   return !openStore.isInputSearchOpen ? (
     <div className={styles["filter-container"]}>
       <div className={styles["filter-container__coins-inscription"]}>Coins</div>
       <div
+        ref={ref}
         className={
           styles[`filter-list_${isOpen ? `open` : `close`}`] +
           " " +

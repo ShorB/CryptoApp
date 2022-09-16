@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 
-import CoinItem from "components/CoinItemContainer/CoinItem/CoinItem";
+import CoinItem from "components/CoinItemContainer/components/CoinItem/CoinItem";
+import { Loader } from "components/Loader";
 import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
@@ -11,7 +12,8 @@ import {
   OpenStoreContext,
 } from "src/App";
 
-import CoinSearchItem from "./CoinSearchItem";
+import styles from "./CoinItemContainer.module.scss";
+import CoinSearchItem from "./components/CoinSearchItem";
 
 export enum Category {
   all = "all",
@@ -25,17 +27,21 @@ const CoinItemContainer = () => {
   const { essencesStore } = useContext(EssencesStoreContext);
   const { openStore } = useContext(OpenStoreContext);
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(
     action(() => {
       if (essencesStore.value) {
-        globalApiStore.fetch(
-          "https://api.coingecko.com/api/v3/search",
-          "searchCoins",
-          "",
-          0,
-          essencesStore.value,
-          essencesStore.currentCurrency
-        );
+        setIsLoading(true);
+        globalApiStore
+          .fetch(
+            "https://api.coingecko.com/api/v3/search",
+            "searchCoins",
+            "",
+            0,
+            essencesStore.value,
+            essencesStore.currentCurrency
+          )
+          .then(() => setIsLoading(false));
       }
     }),
     [
@@ -63,7 +69,10 @@ const CoinItemContainer = () => {
     );
     return essencesStore.setCoins(globalApiStore.coins);
   });
-  return (
+  const currentCoinsSort = essencesStore.currentCoinsSort;
+  return isLoading ? (
+    <Loader />
+  ) : currentCoinsSort.length !== 0 ? (
     <Virtuoso
       style={{ height: "60vh" }}
       totalCount={essencesStore.coins.length}
@@ -73,23 +82,23 @@ const CoinItemContainer = () => {
           <>
             {
               <NavLink
-                key={essencesStore.currentCoinsSort[index]?.id}
-                to={"/" + essencesStore.currentCoinsSort[index]?.id}
+                key={currentCoinsSort[index]?.id}
+                to={"/" + currentCoinsSort[index]?.id}
               >
                 {essencesStore.value && openStore.isInputSearchOpen ? (
                   <CoinSearchItem
-                    key={essencesStore.currentCoinsSort[index]?.id}
-                    coin={essencesStore.currentCoinsSort[index]}
+                    key={currentCoinsSort[index]?.id}
+                    coin={currentCoinsSort[index]}
                   />
                 ) : !essencesStore.value && openStore.isInputSearchOpen ? (
                   <CoinSearchItem
-                    key={essencesStore.currentCoinsSort[index]?.id}
-                    coin={essencesStore.currentCoinsSort[index]}
+                    key={currentCoinsSort[index]?.id}
+                    coin={currentCoinsSort[index]}
                   />
                 ) : (
                   <CoinItem
-                    key={essencesStore.currentCoinsSort[index]?.id}
-                    coin={essencesStore.currentCoinsSort[index]}
+                    key={currentCoinsSort[index]?.id}
+                    coin={currentCoinsSort[index]}
                   />
                 )}
               </NavLink>
@@ -98,6 +107,8 @@ const CoinItemContainer = () => {
         );
       })}
     />
+  ) : (
+    <div className={styles["empty-list"]}>Ничего не найдено :(</div>
   );
 };
 

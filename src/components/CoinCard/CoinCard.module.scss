@@ -2,11 +2,12 @@
 
 .coin-card {
     width: $app_width;
-    height: $app_container_input_close;
+    height: 600px;
     overflow-y: hidden;
     overflow-x: hidden;
     background: $color_white;
     margin: auto;
+    position: relative;
 }
 
 .graph {
