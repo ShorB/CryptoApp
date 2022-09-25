@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Back from "img/Back.svg";
 import Star from "img/Vector.svg";
 import { NavLink } from "react-router-dom";
@@ -10,6 +11,30 @@ type CoinCardHeaderData = {
 };
 
 const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
+  let localStorageStore: CoinsData[] = [];
+  for(let key in localStorage) {
+    if (!localStorage.hasOwnProperty(key)) {
+      continue;
+    }
+    localStorageStore.push(JSON.parse(localStorage.getItem(key) || "{}"));
+  }
+  let result = localStorageStore.find(elem => elem.name === coin.name);
+  const [starOpen, setStarOpen] = useState(false);
+  useEffect(() => {
+    if (result) {
+      setStarOpen(true);
+    } else {
+      setStarOpen(false);
+    }
+  }, [result]);
+  function handleOnClick() {
+    if (localStorageStore.findIndex(item => item.name === coin.name) === -1) {
+      localStorage.setItem(`${coin.name}`, JSON.stringify(coin));
+    } else {
+      localStorage.removeItem(`${coin.name}`);
+    }
+    setStarOpen(!starOpen);
+  }
   return (
     <div>
       <div className={styles["header"]}>
@@ -33,7 +58,12 @@ const CoinCardHeader = ({ coin }: CoinCardHeaderData) => {
             {"(" + coin.symbol.toUpperCase() + ")"}
           </div>
         </div>
-        <img src={Star} alt="star"></img>
+        <img
+          className={styles[`${starOpen ? `star_open` : `star_close`}`]}
+          src={Star}
+          alt="star"
+          onClick={handleOnClick}
+        ></img>
       </div>
       <div className={styles["price-container"]}>
         <div className={styles["price-container__price"]}>{coin?.curPrice}</div>

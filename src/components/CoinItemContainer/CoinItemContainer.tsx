@@ -14,6 +14,7 @@ import {
 
 import styles from "./CoinItemContainer.module.scss";
 import CoinSearchItem from "./components/CoinSearchItem";
+import { CoinsData } from "src/types";
 
 export enum Category {
   all = "all",
@@ -70,9 +71,16 @@ const CoinItemContainer = () => {
     return essencesStore.setCoins(globalApiStore.coins);
   });
   const currentCoinsSort = essencesStore.currentCoinsSort;
+  let localStorageStore: CoinsData[] = [];
+  for(let key in localStorage) {
+    if (!localStorage.hasOwnProperty(key)) {
+      continue;
+    }
+    localStorageStore.push(JSON.parse(localStorage.getItem(key) || "{}"));
+  }
   return isLoading ? (
     <Loader />
-  ) : currentCoinsSort.length !== 0 ? (
+  ) : (currentCoinsSort.length !== 0 && essencesStore.currentCategory !== Category.favourites)  ? (
     <Virtuoso
       style={{ height: "60vh" }}
       totalCount={essencesStore.coins.length}
@@ -95,7 +103,7 @@ const CoinItemContainer = () => {
                     key={currentCoinsSort[index]?.id}
                     coin={currentCoinsSort[index]}
                   />
-                ) : (
+                ) : ( 
                   <CoinItem
                     key={currentCoinsSort[index]?.id}
                     coin={currentCoinsSort[index]}
@@ -107,9 +115,17 @@ const CoinItemContainer = () => {
         );
       })}
     />
+  ) : ( essencesStore.currentCategory === Category.favourites ? (
+    <>
+      {localStorageStore.map((elem: any) => (
+        <NavLink key={elem?.id} to={"/" + elem?.id} >
+          <CoinSearchItem key={elem.id} coin={elem} />
+        </NavLink>
+      ))}
+    </>
   ) : (
     <div className={styles["empty-list"]}>Ничего не найдено :(</div>
-  );
+  ))
 };
 
 export default observer(CoinItemContainer);

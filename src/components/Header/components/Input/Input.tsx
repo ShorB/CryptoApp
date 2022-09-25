@@ -10,6 +10,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { EssencesStoreContext, OpenStoreContext } from "src/App";
+import { Category } from "components/CoinItemContainer/CoinItemContainer";
 
 type InputData = {
   show: () => void;
@@ -28,6 +29,7 @@ const Input = ({ show, isInputSearchOpen }: InputData) => {
     show();
     openStore.changeIsInputSearchOpen();
     essencesStore.setValue("");
+    essencesStore.changeCurrentCategory(Category.all);
   }
   function handleCancelOnClick() {
     show();
